@@ -36,6 +36,7 @@ public class CssColor extends CssValue {
     LAB lab = null;
     LCH lch = null;
     DeviceCMYK cmyk = null;
+    LightDark lightdark = null;
 
     boolean contains_variable = false;
 
@@ -114,6 +115,24 @@ public class CssColor extends CssValue {
         return "*invalid*";
     }
 
+    public void setLightDark(ApplContext ac, CssExpression exp)
+            throws InvalidParamException {
+        if ((exp == null) || (exp.getCount() != 2)) {
+              throw new InvalidParamException("invalid-color", ac);
+        }
+        LightDark ld = new LightDark();
+        CssValue l = exp.getValue();
+        char op = exp.getOperator();
+        if (l == null || op != COMMA) {
+            throw new InvalidParamException("invalid-color", ac);
+        }
+        exp.next();
+        CssValue d = exp.getValue();
+        ld.setLight(ac, l);
+        ld.setDark(ac, d);
+        this.lightdark = ld;
+        exp.next();
+    }
 
     public void setRGBColor(ApplContext ac, CssExpression exp)
             throws InvalidParamException {
@@ -439,6 +458,19 @@ public class CssColor extends CssValue {
 
         if (exp.hasCssVariable()) {
             markCssVariable();
+            if (exp.getCount() < 3) {
+                // check if we can expand
+                while (!exp.end()) {
+                    val = exp.getValue();
+                    if (val.getRawType() == CssTypes.CSS_VARIABLE) {
+                        CssExpression varexp = ((CssVariable) val).getVariableExpression();
+                        if ((varexp != null) && (varexp.getCount() > 1)) {
+                            // TODO something fancy, merging expression
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         if (val == null || (!separator_space && (op != COMMA))) {
@@ -1016,6 +1048,7 @@ public class CssColor extends CssValue {
             throw new InvalidParamException("colorfunc", exp, "Lab", ac);
         }
         switch (val.getType()) {
+            case CssTypes.CSS_NUMBER:
             case CssTypes.CSS_PERCENTAGE:
             case CssTypes.CSS_VARIABLE:
                 lab.setL(ac, val);
@@ -1379,5 +1412,20 @@ public class CssColor extends CssValue {
         }
     }
 
+    /**
+     * Parse a LightDark color.
+     * format: light-dark( <color>, <color>) [ / <alpha-value> ]? ) |
+     */
+    public void setLightDarkColor(ApplContext ac, CssExpression exp)
+            throws InvalidParamException {
+        // light-dark defined in CSS3 and onward
+        if (ac.getCssVersion().compareTo(CssVersion.CSS3) < 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("light-dark(").append(exp.toStringFromStart()).append(')');
+            throw new InvalidParamException("notversion", sb.toString(),
+                    ac.getCssVersionString(), ac);
+        }
+        lightdark = new LightDark();
+    }
 }
 

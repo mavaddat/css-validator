@@ -11,9 +11,11 @@ options {
     IGNORE_CASE  = true;
     STATIC = false;
     UNICODE_INPUT = true;
+    GENERATE_STRING_BUILDER = true;
     /*
-          DEBUG_TOKEN_MANAGER = true; 
-	  DEBUG_PARSER = true;      
+          DEBUG_TOKEN_MANAGER = true;
+	  DEBUG_PARSER = true;
+          DEBUG_LOOKAHEAD = true;
     */
 }
 
@@ -3781,11 +3783,11 @@ CssValue function() :
         case "color-mix(":
             color.setColorMix(ac, exp);
             return color;
-	    case "image(":
-	        img = new CssImage();
-	        img.setImageList(exp, ac);
-	        return img;
-	    case "linear-gradient(":
+	case "image(":
+	    img = new CssImage();
+	    img.setImageList(exp, ac);
+	    return img;
+	case "linear-gradient(":
             img = new CssImage();
             img.setLinearGradient(exp, ac);
             return img;
@@ -3809,21 +3811,21 @@ CssValue function() :
             img = new CssImage();
             img.setRepeatingConicGradient(exp, ac);
             return img;
-	    case "atsc-rgba(":
-	        if (getAtRule().toString().equals("@media atsc-tv")) {
-	            color.setATSCRGBAColor(ac, exp);
-	            return color;
-	        } else {
-		        addError(new InvalidParamException("onlyATSC", "", ac),
-						 getAtRule().toString());
-	            return null;
-	        }
-	    default:
-	        CssFunction f = new CssFunction();
-	        f.set(n.image.substring(0, n.image.length() - 1), exp);
-	        if (funcname.charAt(0) == '-') {
-	            exp.markVendorExtension();
-	        }
+	case "atsc-rgba(":
+	    if (getAtRule().toString().equals("@media atsc-tv")) {
+	        color.setATSCRGBAColor(ac, exp);
+	        return color;
+	    } else {
+	        addError(new InvalidParamException("onlyATSC", "", ac),
+					 getAtRule().toString());
+	        return null;
+	    }
+	default:
+	    CssFunction f = new CssFunction();
+	    f.set(n.image.substring(0, n.image.length() - 1), exp);
+	    if (funcname.charAt(0) == '-') {
+	        exp.markVendorExtension();
+	    }
 	    return f;
 	}
     }   |  p=ident() <EQ> q=<NUMBER> ")" ) {

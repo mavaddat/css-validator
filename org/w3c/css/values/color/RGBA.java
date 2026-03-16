@@ -47,7 +47,7 @@ public class RGBA extends RGB {
 
     CssValue va;
     boolean isRelative = false;
-    CssColor fromValue;
+    CssValue fromValue;
 
     public static final CssValue filterAlpha(ApplContext ac, CssValue val)
             throws InvalidParamException {
@@ -225,11 +225,12 @@ public class RGBA extends RGB {
                 op = exp.getOperator();
                 CssExpression nex = new CssExpression();
                 nex.addValue(val);
-                rgba.fromValue = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
+                CssColor c = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
                 if ((val == null || op != SPACE) && !exp.hasCssVariable()) {
                     exp.starts();
                     throw new InvalidParamException("invalid-color", ac);
                 }
+                rgba.fromValue = val;
                 exp.next();
                 val = exp.getValue();
                 op = exp.getOperator();

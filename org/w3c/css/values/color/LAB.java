@@ -44,7 +44,7 @@ public class LAB {
     CssValue vl, va, vb, alpha;
     boolean faSet = false;
     boolean isRelative = false;
-    CssColor fromValue;
+    CssValue fromValue;
 
     /**
      * Create a new LAB
@@ -126,11 +126,12 @@ public class LAB {
                 op = exp.getOperator();
                 CssExpression nex = new CssExpression();
                 nex.addValue(val);
-                lab.fromValue = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
+                CssColor c = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
                 if ((val == null || op != SPACE) && !exp.hasCssVariable()) {
                     exp.starts();
                     throw new InvalidParamException("invalid-color", ac);
                 }
+                lab.fromValue = val;
                 exp.next();
                 val = exp.getValue();
                 op = exp.getOperator();

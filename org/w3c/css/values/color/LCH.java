@@ -47,7 +47,7 @@ public class LCH {
     CssValue vl, vc, vh, alpha;
     boolean faSet = false;
     boolean isRelative = false;
-    CssColor fromValue;
+    CssValue fromValue;
 
     /**
      * Create a new LCH
@@ -94,11 +94,12 @@ public class LCH {
                 op = exp.getOperator();
                 CssExpression nex = new CssExpression();
                 nex.addValue(val);
-                lch.fromValue = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
+                CssColor c = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
                 if ((val == null || op != SPACE) && !exp.hasCssVariable()) {
                     exp.starts();
                     throw new InvalidParamException("invalid-color", ac);
                 }
+                lch.fromValue = val;
                 exp.next();
                 val = exp.getValue();
                 op = exp.getOperator();

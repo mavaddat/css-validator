@@ -56,7 +56,7 @@ public class HWB {
 
     CssValue vh, vw, vb, va;
     boolean isRelative = false;
-    CssColor fromValue;
+    CssValue fromValue;
 
     static final BigDecimal s100 = new BigDecimal(100);
 
@@ -102,11 +102,12 @@ public class HWB {
                 op = exp.getOperator();
                 CssExpression nex = new CssExpression();
                 nex.addValue(val);
-                hwb.fromValue = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
+                CssColor c = new org.w3c.css.properties.css3.CssColor(ac, nex).getColor();
                 if ((val == null || op != SPACE) && !exp.hasCssVariable()) {
                     exp.starts();
                     throw new InvalidParamException("invalid-color", ac);
                 }
+                hwb.fromValue = val;
                 exp.next();
                 val = exp.getValue();
                 op = exp.getOperator();
@@ -145,6 +146,7 @@ public class HWB {
         }
         switch (val.getType()) {
             case CssTypes.CSS_PERCENTAGE:
+            case CssTypes.CSS_NUMBER:
             case CssTypes.CSS_VARIABLE:
                 hwb.setWhiteness(ac, val);
                 break;
@@ -173,6 +175,7 @@ public class HWB {
         }
         switch (val.getType()) {
             case CssTypes.CSS_PERCENTAGE:
+            case CssTypes.CSS_NUMBER:
             case CssTypes.CSS_VARIABLE:
                 hwb.setBlackness(ac, val);
                 break;

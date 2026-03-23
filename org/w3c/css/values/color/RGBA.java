@@ -33,15 +33,26 @@ import static org.w3c.css.values.CssOperator.SPACE;
 public class RGBA extends RGB {
     static final String functionname = "rgba";
 
-    public static final CssIdent r, g, b, a;
+    public static final CssIdent[] colorRelativeValues;
 
     static {
-        r = CssIdent.getIdent("r");
-        g = CssIdent.getIdent("g");
-        b = CssIdent.getIdent("b");
-        a = CssIdent.getIdent("alpha");
+        String[] _allowed_values = {"r", "g", "b", "alpha"};
+        colorRelativeValues = new CssIdent[_allowed_values.length];
+        int i = 0;
+        for (String s : _allowed_values) {
+            colorRelativeValues[i++] = CssIdent.getIdent(s);
+        }
     }
 
+    public static boolean isColorRelativeValue(CssIdent ident) {
+        for (CssIdent id : colorRelativeValues) {
+            if (id.equals(ident)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     private String output = null;
     String fname;
 
@@ -263,7 +274,7 @@ public class RGBA extends RGB {
                 break;
             case CssTypes.CSS_IDENT:
                 if ((CssColor.none.equals(val.getIdent()) && rgba.isModernCss) ||
-                        (rgba.isRelative && r.equals(val.getIdent()))) {
+                        (rgba.isRelative && isColorRelativeValue(val.getIdent()))) {
                     rgba.setRed(ac, val);
                     break;
                 }
@@ -301,7 +312,7 @@ public class RGBA extends RGB {
                 break;
             case CssTypes.CSS_IDENT:
                 if ((CssColor.none.equals(val.getIdent()) && rgba.isModernCss) ||
-                        (rgba.isRelative && g.equals(val.getIdent()))) {
+                        (rgba.isRelative && isColorRelativeValue(val.getIdent()))) {
                     rgba.setGreen(ac, val);
                     break;
                 }
@@ -338,7 +349,7 @@ public class RGBA extends RGB {
                 break;
             case CssTypes.CSS_IDENT:
                 if ((CssColor.none.equals(val.getIdent()) && rgba.isModernCss) ||
-                        (rgba.isRelative && b.equals(val.getIdent()))) {
+                        (rgba.isRelative && isColorRelativeValue(val.getIdent()))) {
                     rgba.setBlue(ac, val);
                     break;
                 }
@@ -382,7 +393,7 @@ public class RGBA extends RGB {
                     break;
                 case CssTypes.CSS_IDENT:
                     if ((CssColor.none.equals(val.getIdent()) && rgba.isModernCss) ||
-                            (rgba.isRelative && a.equals(val.getIdent()))) {
+                            (rgba.isRelative && isColorRelativeValue(val.getIdent()))) {
                         rgba.setAlpha(ac, val);
                         break;
                     }

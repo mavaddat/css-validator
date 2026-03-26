@@ -201,6 +201,8 @@ import org.w3c.css.properties.css.CssOpacity;
 import org.w3c.css.properties.css.CssOrder;
 import org.w3c.css.properties.css.CssOutlineOffset;
 import org.w3c.css.properties.css.CssOverflowAnchor;
+import org.w3c.css.properties.css.CssOverflowBlock;
+import org.w3c.css.properties.css.CssOverflowInline;
 import org.w3c.css.properties.css.CssOverflowStyle;
 import org.w3c.css.properties.css.CssOverflowWrap;
 import org.w3c.css.properties.css.CssOverflowX;
@@ -590,6 +592,8 @@ public class Css3Style extends ATSCStyle {
 
     public CssOverflowX cssOverflowX;
     public CssOverflowY cssOverflowY;
+    public CssOverflowBlock cssOverflowBlock;
+    public CssOverflowInline cssOverflowInline;
 
     public CssObjectFit cssObjectFit;
     public CssObjectPosition cssObjectPosition;
@@ -3002,6 +3006,24 @@ public class Css3Style extends ATSCStyle {
                             new CssOverflowY(), style, selector);
         }
         return cssOverflowY;
+    }
+
+    public CssOverflowBlock getOverflowBlock() {
+        if (cssOverflowBlock == null) {
+            cssOverflowBlock =
+                    (CssOverflowBlock) style.CascadingOrder(
+                            new CssOverflowBlock(), style, selector);
+        }
+        return cssOverflowBlock;
+    }
+
+    public CssOverflowInline getOverflowInline() {
+        if (cssOverflowInline == null) {
+            cssOverflowInline =
+                    (CssOverflowInline) style.CascadingOrder(
+                            new CssOverflowInline(), style, selector);
+        }
+        return cssOverflowInline;
     }
 
     public CssRubySpan getRubySpan() {

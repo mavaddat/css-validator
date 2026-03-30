@@ -202,6 +202,7 @@ import org.w3c.css.properties.css.CssOrder;
 import org.w3c.css.properties.css.CssOutlineOffset;
 import org.w3c.css.properties.css.CssOverflowAnchor;
 import org.w3c.css.properties.css.CssOverflowBlock;
+import org.w3c.css.properties.css.CssOverflowClipMargin;
 import org.w3c.css.properties.css.CssOverflowInline;
 import org.w3c.css.properties.css.CssOverflowStyle;
 import org.w3c.css.properties.css.CssOverflowWrap;
@@ -594,6 +595,7 @@ public class Css3Style extends ATSCStyle {
     public CssOverflowY cssOverflowY;
     public CssOverflowBlock cssOverflowBlock;
     public CssOverflowInline cssOverflowInline;
+    public CssOverflowClipMargin cssOverflowClipMargin;
 
     public CssObjectFit cssObjectFit;
     public CssObjectPosition cssObjectPosition;
@@ -3024,6 +3026,15 @@ public class Css3Style extends ATSCStyle {
                             new CssOverflowInline(), style, selector);
         }
         return cssOverflowInline;
+    }
+
+    public CssOverflowClipMargin getOverflowClipMargin() {
+        if (cssOverflowClipMargin == null) {
+            cssOverflowClipMargin =
+                    (CssOverflowClipMargin) style.CascadingOrder(
+                            new CssOverflowClipMargin(), style, selector);
+        }
+        return cssOverflowClipMargin;
     }
 
     public CssRubySpan getRubySpan() {

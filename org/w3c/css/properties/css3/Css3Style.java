@@ -262,6 +262,7 @@ import org.w3c.css.properties.css.CssScrollSnapAlign;
 import org.w3c.css.properties.css.CssScrollSnapStop;
 import org.w3c.css.properties.css.CssScrollSnapType;
 import org.w3c.css.properties.css.CssScrollbarColor;
+import org.w3c.css.properties.css.CssScrollbarGutter;
 import org.w3c.css.properties.css.CssScrollbarWidth;
 import org.w3c.css.properties.css.CssSpeakAs;
 import org.w3c.css.properties.css.CssTabSize;
@@ -596,6 +597,7 @@ public class Css3Style extends ATSCStyle {
     public CssOverflowBlock cssOverflowBlock;
     public CssOverflowInline cssOverflowInline;
     public CssOverflowClipMargin cssOverflowClipMargin;
+    public CssScrollbarGutter cssScrollbarGutter;
 
     public CssObjectFit cssObjectFit;
     public CssObjectPosition cssObjectPosition;
@@ -3035,6 +3037,15 @@ public class Css3Style extends ATSCStyle {
                             new CssOverflowClipMargin(), style, selector);
         }
         return cssOverflowClipMargin;
+    }
+
+    public CssScrollbarGutter getScrollbarGutter() {
+        if (cssScrollbarGutter == null) {
+            cssScrollbarGutter =
+                    (CssScrollbarGutter) style.CascadingOrder(
+                            new CssScrollbarGutter(), style, selector);
+        }
+        return cssScrollbarGutter;
     }
 
     public CssRubySpan getRubySpan() {

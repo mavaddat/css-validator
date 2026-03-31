@@ -87,9 +87,13 @@ public class CssOverflowClipMargin extends org.w3c.css.properties.css.CssOverflo
                     break;
                 case CssTypes.CSS_IDENT:
                     CssIdent id = val.getIdent();
-                    if (CssIdent.isCssWide(id) && expression.getCount() > 1) {
-                        throw new InvalidParamException("value", val,
-                                getPropertyName(), ac);
+                    if (CssIdent.isCssWide(id)) {
+                        if (expression.getCount() > 1) {
+                            throw new InvalidParamException("value", val,
+                                    getPropertyName(), ac);
+                        }
+                        v.add(val);
+                        break;
                     }
                     if (getVisualBoxIdent(id) != null) {
                         if (got_visualbox) {

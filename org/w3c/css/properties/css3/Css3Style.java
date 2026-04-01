@@ -201,6 +201,9 @@ import org.w3c.css.properties.css.CssOpacity;
 import org.w3c.css.properties.css.CssOrder;
 import org.w3c.css.properties.css.CssOutlineOffset;
 import org.w3c.css.properties.css.CssOverflowAnchor;
+import org.w3c.css.properties.css.CssOverflowBlock;
+import org.w3c.css.properties.css.CssOverflowClipMargin;
+import org.w3c.css.properties.css.CssOverflowInline;
 import org.w3c.css.properties.css.CssOverflowStyle;
 import org.w3c.css.properties.css.CssOverflowWrap;
 import org.w3c.css.properties.css.CssOverflowX;
@@ -259,6 +262,7 @@ import org.w3c.css.properties.css.CssScrollSnapAlign;
 import org.w3c.css.properties.css.CssScrollSnapStop;
 import org.w3c.css.properties.css.CssScrollSnapType;
 import org.w3c.css.properties.css.CssScrollbarColor;
+import org.w3c.css.properties.css.CssScrollbarGutter;
 import org.w3c.css.properties.css.CssScrollbarWidth;
 import org.w3c.css.properties.css.CssSpeakAs;
 import org.w3c.css.properties.css.CssTabSize;
@@ -590,6 +594,10 @@ public class Css3Style extends ATSCStyle {
 
     public CssOverflowX cssOverflowX;
     public CssOverflowY cssOverflowY;
+    public CssOverflowBlock cssOverflowBlock;
+    public CssOverflowInline cssOverflowInline;
+    public CssOverflowClipMargin cssOverflowClipMargin;
+    public CssScrollbarGutter cssScrollbarGutter;
 
     public CssObjectFit cssObjectFit;
     public CssObjectPosition cssObjectPosition;
@@ -3002,6 +3010,42 @@ public class Css3Style extends ATSCStyle {
                             new CssOverflowY(), style, selector);
         }
         return cssOverflowY;
+    }
+
+    public CssOverflowBlock getOverflowBlock() {
+        if (cssOverflowBlock == null) {
+            cssOverflowBlock =
+                    (CssOverflowBlock) style.CascadingOrder(
+                            new CssOverflowBlock(), style, selector);
+        }
+        return cssOverflowBlock;
+    }
+
+    public CssOverflowInline getOverflowInline() {
+        if (cssOverflowInline == null) {
+            cssOverflowInline =
+                    (CssOverflowInline) style.CascadingOrder(
+                            new CssOverflowInline(), style, selector);
+        }
+        return cssOverflowInline;
+    }
+
+    public CssOverflowClipMargin getOverflowClipMargin() {
+        if (cssOverflowClipMargin == null) {
+            cssOverflowClipMargin =
+                    (CssOverflowClipMargin) style.CascadingOrder(
+                            new CssOverflowClipMargin(), style, selector);
+        }
+        return cssOverflowClipMargin;
+    }
+
+    public CssScrollbarGutter getScrollbarGutter() {
+        if (cssScrollbarGutter == null) {
+            cssScrollbarGutter =
+                    (CssScrollbarGutter) style.CascadingOrder(
+                            new CssScrollbarGutter(), style, selector);
+        }
+        return cssScrollbarGutter;
     }
 
     public CssRubySpan getRubySpan() {

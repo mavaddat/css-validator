@@ -26,6 +26,7 @@ package org.w3c.css.parser.analyzer;
 import org.w3c.css.atrules.css.AtRuleCounterStyle;
 import org.w3c.css.atrules.css.AtRuleFontFace;
 import org.w3c.css.atrules.css.AtRuleKeyframes;
+import org.w3c.css.atrules.css.AtRuleLayer;
 import org.w3c.css.atrules.css.AtRuleMedia;
 import org.w3c.css.atrules.css.AtRulePage;
 import org.w3c.css.atrules.css.AtRulePhoneticAlphabet;
@@ -739,6 +740,7 @@ TOKEN [IGNORE_CASE] :
   | < COLOR_PROFILE         : "@color-profile" >
   | < A_COUNTER             : "@counter" >
   | < COUNTER_STYLE_SYM     : "@counter-style" > 
+  | < LAYER_SYM             : "@layer" >
   | < PHONETIC_ALPHABET_SYM : "@phonetic-alphabet" >
   | < SUPPORTS_SYM          : "@supports" >
   | < VIEWPORT_SYM          : "@viewport" >
@@ -927,7 +929,8 @@ void nested_at_rules() : {
 }
 {
   ( media() | page() | fontFace() | keyframes() | preference() | viewport()
-    | colorprofile() | counterstyle() | phoneticAlphabet() | supports() | atRuleDeclaration() )
+    | colorprofile() | counterstyle() | phoneticAlphabet() | supports()
+    | atRuleDeclaration() | layer() )
 }
 
 void afterImportDeclaration() :
@@ -1789,6 +1792,42 @@ void counterstyle() :
 	    handleRule(s, v);
 	 }
       }
+  } catch (ParseException e) {
+    addError(e, skipStatement());
+  } finally {
+    setAtRule(old);
+  }
+}
+
+void layer() :
+{
+  Token n = null;
+  ArrayList<CssProperty> v;
+  AtRule old = getAtRule();
+  AtRuleLayer layerrule = new AtRuleLayer();
+  setAtRule(layerrule);
+  CssSelectors s = new CssSelectors(ac);
+  CssVersion version = ac.getCssVersion();
+}
+{
+  try {
+    <LAYER_SYM> {
+      if (version.compareTo(CssVersion.CSS3) < 0) {
+        skipStatement();
+        addError(new InvalidParamException("noatruleyet", "", ac),
+                             getAtRule().toString());
+      } else {
+        newAtRule(layerrule);
+      }
+    } ( <S> )+ ( LOOKAHEAD(2) n=ident() {
+      layerrule.addLayerName(convertIdent(n.image));
+    }                                   ( <COMMA> ( <S> )* n=ident() {
+      layerrule.addLayerName(convertIdent(n.image));
+    }                                                        )* ( <S> )* <SEMICOLON> |  ( n=ident() {
+      layerrule.setName(convertIdent(n.image));
+    }                                                                           ( <S> )* )?
+    <LBRACE> ( <S> )* ( ruleSet()  | nested_at_rules() )* <RBRACE> )
+    ( <S> )*
   } catch (ParseException e) {
     addError(e, skipStatement());
   } finally {

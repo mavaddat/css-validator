@@ -48,6 +48,7 @@ import org.w3c.css.values.CssCalc;
 import org.w3c.css.values.CssCheckableValue;
 import org.w3c.css.values.CssColor;
 import org.w3c.css.values.CssComparator;
+import org.w3c.css.values.CssDashedIdent;
 import org.w3c.css.values.CssEnv;
 import org.w3c.css.values.CssExpression;
 import org.w3c.css.values.CssFlexibleLength;

@@ -32,9 +32,12 @@ public class ColorMix {
     public final static CssIdent[] polarColorSpaceValues;
     public final static CssIdent[] hueInterpolationMethodModifiers;
 
+    /**
+     @spec https://www.w3.org/TR/2026/WD-css-color-5-20260410/#typedef-rectangular-color-space
+     */
     static {
         String[] _rectangularColorSpaceValues = {"srgb", "srgb-linear", "display-p3",
-                "a98-rgb", "prophoto-rgb", "rec2020", "lab",
+                "display-p3-linear", "a98-rgb", "prophoto-rgb", "rec2020", "lab",
                 "oklab", "xyz", "xyz-d50", "xyz-d65"};
         rectangularColorSpaceValues = new CssIdent[_rectangularColorSpaceValues.length];
         for (int i = 0; i < _rectangularColorSpaceValues.length; i++) {

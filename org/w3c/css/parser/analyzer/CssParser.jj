@@ -236,8 +236,8 @@ public abstract class CssParser {
      * @param url  The style sheet where this import statement appears.
      * @param file the file name in the import
      */  
-    public abstract void handleImport(URL url, String file, 
-				      boolean is_url, AtRuleMedia media);
+    public abstract void handleImport(URL url, String file, boolean is_url,
+				      AtRuleLayer layer, AtRuleMedia media);
 
     /**
      * Call by the namespace declaration statement.
@@ -791,6 +791,7 @@ TOKEN [IGNORE_CASE] :
     | <FUNCTIONATTR          : "attr("             >
     | <FUNCTIONVAR           : "var("              >
     | <FUNCTIONENV           : "env("              >
+    | <FUNCTIONLAYER         : "layer("            >
 }
 
 <DEFAULT>
@@ -1029,9 +1030,12 @@ void namespaceDeclaration() :
 void importDeclaration() :
 {Token n;
     AtRuleMedia media = AtRuleMedia.getInstance(ac.getCssVersion());
+    AtRuleLayer layer = null;
     CssValue val; 
     String importFile;
     boolean is_url = false;
+    String layername = "";
+    CssVersion version = ac.getCssVersion();
 }
 {
     try {
@@ -1052,10 +1056,31 @@ void importDeclaration() :
 	    } 
 	    )
 	    ( <S> )*
+            ( (  "layer" {
+			     if (version.compareTo(CssVersion.CSS3) < 0) {
+                                 addError(new InvalidParamException("noatruleyet", "", ac),
+                                 skipStatement());
+                             }
+                             layer = new AtRuleLayer();
+                         }
+                         | ( <FUNCTIONLAYER> ( <S> )* n=<IDENT> {
+                                                                    if (version.compareTo(CssVersion.CSS3) < 0) {
+                                                                        addError(new InvalidParamException("noatruleyet", "", ac),
+                                                                        skipStatement());
+                                                                    }
+								    layer = new AtRuleLayer();
+								    layername = convertIdent(n.image);
+                                                                }
+                             ( <DOT> n=<IDENT> {
+						   layername = layername + "." + convertIdent(n.image);
+                                               } )*
+                             ( <S> )* <RPAREN> {
+						   layer.setName(convertIdent(n.image));
+                                               } ) ) ( <S> )* )?
 	    ( mediaquerylist(media) )? <SEMICOLON>
 	    ( <S> )*
 	    { 
-		handleImport(getURL(), importFile, is_url, media);
+		handleImport(getURL(), importFile, is_url, layer, media);
 	    } 
     } catch (ParseException e) {
 	addError(e, skipStatement()); 

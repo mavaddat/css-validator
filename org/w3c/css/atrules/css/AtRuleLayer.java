@@ -72,6 +72,16 @@ public class AtRuleLayer extends AtRule {
         return ret.toString();
     }
 
+    public String getNameString() {
+        StringBuilder ret = new StringBuilder();
+        if (name != null) {
+            return "layer";
+        } else {
+            ret.append("layer(").append(name).append(")");
+            return ret.toString();
+        }
+    }
+
     public String lookupPrefix() {
         return "";
     }

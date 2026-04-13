@@ -26,6 +26,7 @@ package org.w3c.css.parser.analyzer;
 import org.w3c.css.atrules.css.AtRuleCounterStyle;
 import org.w3c.css.atrules.css.AtRuleFontFace;
 import org.w3c.css.atrules.css.AtRuleKeyframes;
+import org.w3c.css.atrules.css.AtRuleLayer;
 import org.w3c.css.atrules.css.AtRuleMedia;
 import org.w3c.css.atrules.css.AtRulePage;
 import org.w3c.css.atrules.css.AtRulePhoneticAlphabet;
@@ -235,8 +236,8 @@ public abstract class CssParser {
      * @param url  The style sheet where this import statement appears.
      * @param file the file name in the import
      */  
-    public abstract void handleImport(URL url, String file, 
-				      boolean is_url, AtRuleMedia media);
+    public abstract void handleImport(URL url, String file, boolean is_url,
+				      AtRuleLayer layer, AtRuleMedia media);
 
     /**
      * Call by the namespace declaration statement.
@@ -739,6 +740,7 @@ TOKEN [IGNORE_CASE] :
   | < COLOR_PROFILE         : "@color-profile" >
   | < A_COUNTER             : "@counter" >
   | < COUNTER_STYLE_SYM     : "@counter-style" > 
+  | < LAYER_SYM             : "@layer" >
   | < PHONETIC_ALPHABET_SYM : "@phonetic-alphabet" >
   | < SUPPORTS_SYM          : "@supports" >
   | < VIEWPORT_SYM          : "@viewport" >
@@ -789,6 +791,7 @@ TOKEN [IGNORE_CASE] :
     | <FUNCTIONATTR          : "attr("             >
     | <FUNCTIONVAR           : "var("              >
     | <FUNCTIONENV           : "env("              >
+    | <FUNCTIONLAYER         : "layer("            >
 }
 
 <DEFAULT>
@@ -927,7 +930,8 @@ void nested_at_rules() : {
 }
 {
   ( media() | page() | fontFace() | keyframes() | preference() | viewport()
-    | colorprofile() | counterstyle() | phoneticAlphabet() | supports() | atRuleDeclaration() )
+    | colorprofile() | counterstyle() | phoneticAlphabet() | supports()
+    | atRuleDeclaration() | layer() )
 }
 
 void afterImportDeclaration() :
@@ -1026,9 +1030,12 @@ void namespaceDeclaration() :
 void importDeclaration() :
 {Token n;
     AtRuleMedia media = AtRuleMedia.getInstance(ac.getCssVersion());
+    AtRuleLayer layer = null;
     CssValue val; 
     String importFile;
     boolean is_url = false;
+    String layername = "";
+    CssVersion version = ac.getCssVersion();
 }
 {
     try {
@@ -1049,10 +1056,31 @@ void importDeclaration() :
 	    } 
 	    )
 	    ( <S> )*
+            ( (  "layer" {
+			     if (version.compareTo(CssVersion.CSS3) < 0) {
+                                 addError(new InvalidParamException("noatruleyet", "", ac),
+                                 skipStatement());
+                             }
+                             layer = new AtRuleLayer();
+                         }
+                         | ( <FUNCTIONLAYER> ( <S> )* n=<IDENT> {
+                                                                    if (version.compareTo(CssVersion.CSS3) < 0) {
+                                                                        addError(new InvalidParamException("noatruleyet", "", ac),
+                                                                        skipStatement());
+                                                                    }
+								    layer = new AtRuleLayer();
+								    layername = convertIdent(n.image);
+                                                                }
+                             ( <DOT> n=<IDENT> {
+						   layername = layername + "." + convertIdent(n.image);
+                                               } )*
+                             ( <S> )* <RPAREN> {
+						   layer.setName(convertIdent(n.image));
+                                               } ) ) ( <S> )* )?
 	    ( mediaquerylist(media) )? <SEMICOLON>
 	    ( <S> )*
 	    { 
-		handleImport(getURL(), importFile, is_url, media);
+		handleImport(getURL(), importFile, is_url, layer, media);
 	    } 
     } catch (ParseException e) {
 	addError(e, skipStatement()); 
@@ -1789,6 +1817,42 @@ void counterstyle() :
 	    handleRule(s, v);
 	 }
       }
+  } catch (ParseException e) {
+    addError(e, skipStatement());
+  } finally {
+    setAtRule(old);
+  }
+}
+
+void layer() :
+{
+  Token n = null;
+  ArrayList<CssProperty> v;
+  AtRule old = getAtRule();
+  AtRuleLayer layerrule = new AtRuleLayer();
+  setAtRule(layerrule);
+  CssSelectors s = new CssSelectors(ac);
+  CssVersion version = ac.getCssVersion();
+}
+{
+  try {
+    <LAYER_SYM> {
+      if (version.compareTo(CssVersion.CSS3) < 0) {
+        skipStatement();
+        addError(new InvalidParamException("noatruleyet", "", ac),
+                             getAtRule().toString());
+      } else {
+        newAtRule(layerrule);
+      }
+    } ( <S> )+ ( LOOKAHEAD(2) n=ident() {
+      layerrule.addLayerName(convertIdent(n.image));
+    }                                   ( <COMMA> ( <S> )* n=ident() {
+      layerrule.addLayerName(convertIdent(n.image));
+    }                                                        )* ( <S> )* <SEMICOLON> |  ( n=ident() {
+      layerrule.setName(convertIdent(n.image));
+    }                                                                           ( <S> )* )?
+    <LBRACE> ( <S> )* ( ruleSet()  | nested_at_rules() )* <RBRACE> )
+    ( <S> )*
   } catch (ParseException e) {
     addError(e, skipStatement());
   } finally {

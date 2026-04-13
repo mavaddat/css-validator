@@ -9,14 +9,17 @@ package org.w3c.css.values.color;
 import org.w3c.css.util.ApplContext;
 import org.w3c.css.util.CssVersion;
 import org.w3c.css.util.InvalidParamException;
+import org.w3c.css.values.CssCheckableValue;
 import org.w3c.css.values.CssColor;
 import org.w3c.css.values.CssExpression;
 import org.w3c.css.values.CssIdent;
 import org.w3c.css.values.CssOperator;
+import org.w3c.css.values.CssPercentage;
 import org.w3c.css.values.CssTypes;
 import org.w3c.css.values.CssValue;
 import org.w3c.css.values.CssValueList;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static org.w3c.css.values.CssOperator.COMMA;
@@ -230,6 +233,18 @@ public class ColorMix {
         op = exp.getOperator();
         if (val.getType() == CssTypes.CSS_PERCENTAGE) {
             gotPercentage = true;
+            CssCheckableValue v = val.getCheckableValue();
+            if (!v.isPositive()) {
+                throw new InvalidParamException("value", val.toString(), exp.toStringFromStart(), ac);
+            }
+            if (val.getRawType() == CssTypes.CSS_PERCENTAGE) {
+                CssPercentage p = val.getPercentage();
+                BigDecimal other = BigDecimal.valueOf(100);
+                if (p.getValue().compareTo(other) > 0) {
+                    throw new InvalidParamException("lowerequal",
+                            exp.toStringFromStart(), other.toPlainString(), ac);
+                }
+            }
             values.add(val);
         } else {
             CssExpression e = new CssExpression();
@@ -247,6 +262,19 @@ public class ColorMix {
             if (val.getType() == CssTypes.CSS_PERCENTAGE) {
                 if (gotPercentage) {
                     throw new InvalidParamException("value", val.toString(), caller, ac);
+                }
+                CssCheckableValue v = val.getCheckableValue();
+                if (!v.isPositive()) {
+                    throw new InvalidParamException("value", val.toString(),
+                            exp.toStringFromStart(), ac);
+                }
+                if (val.getRawType() == CssTypes.CSS_PERCENTAGE) {
+                    CssPercentage p = val.getPercentage();
+                    BigDecimal other = BigDecimal.valueOf(100);
+                    if (p.getValue().compareTo(other) > 0) {
+                        throw new InvalidParamException("lowerequal",
+                                exp.toStringFromStart(), other.toPlainString(), ac);
+                    }
                 }
                 values.add(val);
             } else {

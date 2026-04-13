@@ -70,6 +70,7 @@ import org.w3c.css.values.CssCalc;
 import org.w3c.css.values.CssCheckableValue;
 import org.w3c.css.values.CssColor;
 import org.w3c.css.values.CssComparator;
+import org.w3c.css.values.CssDashedIdent;
 import org.w3c.css.values.CssEnv;
 import org.w3c.css.values.CssExpression;
 import org.w3c.css.values.CssFlexibleLength;
@@ -3267,7 +3268,7 @@ void term(CssExpression exp) :
         | func=function() { setValue(func, exp, operator, null, FUNCTION); }
         | n=<STRING> { setValue(new CssString(), exp, operator, n, STRING); }
         | n=<DIV>  { setValue(new CssSwitch(), exp, operator, n, DIV); }
-        | ( n=<RBRACKET> | n=<LBRACKET> ) {  setValue(new CssBracket(), exp, operator, n, RBRACKET); }
+        | ( n=<RBRACKET> | n=<LBRACKET> ) { setValue(new CssBracket(), exp, operator, n, RBRACKET); }
         | n=ident() {
 	/*
 	 * Common error :
@@ -3291,6 +3292,7 @@ void term(CssExpression exp) :
 		setValue(new CssIdent(), exp, operator, n, IDENT);
 	    }
         }
+        | n=<CUSTOM_PROPERTY_NAME> { setValue(new CssDashedIdent(), exp, operator, n, CUSTOM_PROPERTY_NAME); }
         | hashident(exp)
         | n=<URL> { 
 	    CssURL _u = new CssURL();

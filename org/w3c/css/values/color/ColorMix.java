@@ -155,6 +155,16 @@ public class ColorMix {
         exp.next();
         val = exp.getValue();
         op = exp.getOperator();
+        if (val.getType() == CssTypes.CSS_DASHED_IDENT) {
+            // TODO check it is a declared value
+            values.add(val);
+            exp.next();
+            if (!exp.end()) {
+                throw new InvalidParamException("unrecognize", ac);
+            }
+            return new CssValueList(values);
+        }
+        // else it should be a specific IDENT
         if (val.getType() != CssTypes.CSS_IDENT) {
             throw new InvalidParamException("value",
                     val.toString(), caller, ac);
@@ -209,14 +219,6 @@ public class ColorMix {
             }
             throw new InvalidParamException("value",
                     val.toString(), caller, ac);
-        }
-        if (id.toString().startsWith("--")) {
-            // TODO check it is a declared value
-            values.add(val);
-            if (!exp.end()) {
-                throw new InvalidParamException("unrecognize", ac);
-            }
-            return new CssValueList(values);
         }
         throw new InvalidParamException("unrecognize", ac);
     }

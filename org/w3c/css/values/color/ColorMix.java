@@ -65,7 +65,7 @@ public class ColorMix {
     boolean has_css_variable = false;
 
     /**
-     * Create a new LightDark
+     * Create a new ColorMix
      */
     public ColorMix() {
     }

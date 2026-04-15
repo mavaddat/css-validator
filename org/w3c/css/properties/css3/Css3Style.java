@@ -747,6 +747,16 @@ public class Css3Style extends ATSCStyle {
     public CssTextSpacing cssTextSpacing;
     public CssTranslate cssTranslate;
     public CssRotate cssRotate;
+    public org.w3c.css.properties.css.CssZoom cssZoom;
+
+    public org.w3c.css.properties.css.CssZoom getZoom() {
+        if (cssZoom == null) {
+            cssZoom =
+                    (org.w3c.css.properties.css.CssZoom) style.CascadingOrder(new CssZoom(),
+                            style, selector);
+        }
+        return cssZoom;
+    }
 
     public CssRotate getRotate() {
         if (cssRotate == null) {
@@ -765,7 +775,7 @@ public class Css3Style extends ATSCStyle {
         }
         return cssTranslate;
     }
-    
+
     public CssScale getScale() {
         if (cssScale == null) {
             cssScale =
@@ -774,7 +784,7 @@ public class Css3Style extends ATSCStyle {
         }
         return cssScale;
     }
-    
+
     public CssTextSpacing getTextSpacing() {
         if (cssTextSpacing == null) {
             cssTextSpacing =
@@ -792,7 +802,7 @@ public class Css3Style extends ATSCStyle {
         }
         return cssTextSpacingTrim;
     }
-    
+
     public CssTextAutospace getTextAutospace() {
         if (cssTextAutospace == null) {
             cssTextAutospace =
@@ -801,7 +811,7 @@ public class Css3Style extends ATSCStyle {
         }
         return cssTextAutospace;
     }
-    
+
     public CssLinePadding getLinePadding() {
         if (cssLinePadding == null) {
             cssLinePadding =
@@ -810,7 +820,7 @@ public class Css3Style extends ATSCStyle {
         }
         return cssLinePadding;
     }
-    
+
     public CssTextGroupAlign getTextGroupAlign() {
         if (cssTextGroupAlign == null) {
             cssTextGroupAlign =

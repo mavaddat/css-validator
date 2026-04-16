@@ -36,7 +36,7 @@ import java.util.StringTokenizer;
 public class CssPropertyFactory implements Cloneable {
 
     private static final String[] NONSTANDARD_PROPERTIES = //
-            {"zoom"};
+            { };
 
     private static boolean isNonstandardProperty(String property) {
         if (property.charAt(0) == '-' || property.charAt(0) == '_') {

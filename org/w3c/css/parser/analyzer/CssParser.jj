@@ -2642,7 +2642,7 @@ void attribute_selector(CssSelectors s) :
 	   | val=<STRING> 
 	       { val.image = convertStringIndex(val.image, 1, val.image.length() -1, false);} 
 	   ) 
-	   ( LOOKAHEAD(2) ( <S> )+ mod=ident() )? ( <S> )*  )?
+	   ( LOOKAHEAD(2) ( <S> )* mod=ident() )? ( <S> )*  )?
     <RBRACKET>
       {
 	if (ac.getCssVersion() == CssVersion.CSS1) {

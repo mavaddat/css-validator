@@ -5634,7 +5634,6 @@ val.image = convertStringIndex(val.image, 1, val.image.length() -1, false);
       if (jj_2_19(2)) {
         label_148:
         while (true) {
-          jj_consume_token(S);
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
           case S:{
             ;
@@ -5644,6 +5643,7 @@ val.image = convertStringIndex(val.image, 1, val.image.length() -1, false);
             jj_la1[216] = jj_gen;
             break label_148;
           }
+          jj_consume_token(S);
         }
         mod = ident();
       } else {
@@ -11322,7 +11322,6 @@ n.image = Util.strip(n.image);
   private boolean jj_3_19()
  {
     Token xsp;
-    if (jj_scan_token(21)) return true;
     while (true) {
       xsp = jj_scanpos;
       if (jj_scan_token(21)) { jj_scanpos = xsp; break; }

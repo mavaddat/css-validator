@@ -107,6 +107,10 @@ public class CssCalc extends CssCheckableValue {
 
     public CssCalc addRightSide(String oper, CssValue value) throws InvalidParamException {
         _toString = null;
+        int l = oper.length();
+        if (l > 1) {
+            oper = oper.substring(l - 1);
+        }
         switch (oper) {
             case "+":
                 operator = CssOperator.PLUS;

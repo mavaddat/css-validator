@@ -99,7 +99,7 @@ public interface CssParserConstants {
   /** RegularExpression Id. */
   int PROGID = 44;
   /** RegularExpression Id. */
-  int CUSTOM_PROPERTY_NAME = 45;
+  int DASHED_IDENT = 45;
   /** RegularExpression Id. */
   int RBRACE = 46;
   /** RegularExpression Id. */
@@ -211,101 +211,103 @@ public interface CssParserConstants {
   /** RegularExpression Id. */
   int FONT_FACE_SYM = 100;
   /** RegularExpression Id. */
-  int KEYFRAMES_SYM = 101;
+  int FONT_PALETTE_VALUES_SYM = 101;
   /** RegularExpression Id. */
-  int PREF_SYM = 102;
+  int KEYFRAMES_SYM = 102;
   /** RegularExpression Id. */
-  int COLOR_PROFILE = 103;
+  int PREF_SYM = 103;
   /** RegularExpression Id. */
-  int A_COUNTER = 104;
+  int COLOR_PROFILE = 104;
   /** RegularExpression Id. */
-  int COUNTER_STYLE_SYM = 105;
+  int A_COUNTER = 105;
   /** RegularExpression Id. */
-  int LAYER_SYM = 106;
+  int COUNTER_STYLE_SYM = 106;
   /** RegularExpression Id. */
-  int PHONETIC_ALPHABET_SYM = 107;
+  int LAYER_SYM = 107;
   /** RegularExpression Id. */
-  int SUPPORTS_SYM = 108;
+  int PHONETIC_ALPHABET_SYM = 108;
   /** RegularExpression Id. */
-  int VIEWPORT_SYM = 109;
+  int SUPPORTS_SYM = 109;
   /** RegularExpression Id. */
-  int ATKEYWORD = 110;
+  int VIEWPORT_SYM = 110;
   /** RegularExpression Id. */
-  int RANGE0 = 111;
+  int ATKEYWORD = 111;
   /** RegularExpression Id. */
-  int RANGE1 = 112;
+  int RANGE0 = 112;
   /** RegularExpression Id. */
-  int RANGE2 = 113;
+  int RANGE1 = 113;
   /** RegularExpression Id. */
-  int RANGE3 = 114;
+  int RANGE2 = 114;
   /** RegularExpression Id. */
-  int RANGE4 = 115;
+  int RANGE3 = 115;
   /** RegularExpression Id. */
-  int RANGE5 = 116;
+  int RANGE4 = 116;
   /** RegularExpression Id. */
-  int RANGE6 = 117;
+  int RANGE5 = 117;
   /** RegularExpression Id. */
-  int RANGE = 118;
+  int RANGE6 = 118;
   /** RegularExpression Id. */
-  int UNI = 119;
+  int RANGE = 119;
   /** RegularExpression Id. */
-  int UNICODERANGE = 120;
+  int UNI = 120;
   /** RegularExpression Id. */
-  int FUNCTIONLANG = 121;
+  int UNICODERANGE = 121;
   /** RegularExpression Id. */
-  int FUNCTIONDIR = 122;
+  int FUNCTIONLANG = 122;
   /** RegularExpression Id. */
-  int FUNCTIONIS = 123;
+  int FUNCTIONDIR = 123;
   /** RegularExpression Id. */
-  int FUNCTIONWHERE = 124;
+  int FUNCTIONIS = 124;
   /** RegularExpression Id. */
-  int FUNCTIONHAS = 125;
+  int FUNCTIONWHERE = 125;
   /** RegularExpression Id. */
-  int FUNCTIONSLOTTED = 126;
+  int FUNCTIONHAS = 126;
   /** RegularExpression Id. */
-  int FUNCTIONHOST = 127;
+  int FUNCTIONSLOTTED = 127;
   /** RegularExpression Id. */
-  int FUNCTIONHOSTCONTEXT = 128;
+  int FUNCTIONHOST = 128;
   /** RegularExpression Id. */
-  int FUNCTIONNTHCHILD = 129;
+  int FUNCTIONHOSTCONTEXT = 129;
   /** RegularExpression Id. */
-  int FUNCTIONNTHLASTCHILD = 130;
+  int FUNCTIONNTHCHILD = 130;
   /** RegularExpression Id. */
-  int FUNCTIONNTHCOL = 131;
+  int FUNCTIONNTHLASTCHILD = 131;
   /** RegularExpression Id. */
-  int FUNCTIONNTHLASTCOL = 132;
+  int FUNCTIONNTHCOL = 132;
   /** RegularExpression Id. */
-  int FUNCTIONNTHOFTYPE = 133;
+  int FUNCTIONNTHLASTCOL = 133;
   /** RegularExpression Id. */
-  int FUNCTIONNTHLASTOFTYPE = 134;
+  int FUNCTIONNTHOFTYPE = 134;
   /** RegularExpression Id. */
-  int FUNCTIONNOT = 135;
+  int FUNCTIONNTHLASTOFTYPE = 135;
   /** RegularExpression Id. */
-  int FUNCTIONCALC = 136;
+  int FUNCTIONNOT = 136;
   /** RegularExpression Id. */
-  int FUNCTIONMATHN = 137;
+  int FUNCTIONCALC = 137;
   /** RegularExpression Id. */
-  int FUNCTIONMATH1 = 138;
+  int FUNCTIONMATHN = 138;
   /** RegularExpression Id. */
-  int FUNCTIONMATH2 = 139;
+  int FUNCTIONMATH1 = 139;
   /** RegularExpression Id. */
-  int FUNCTIONROUND = 140;
+  int FUNCTIONMATH2 = 140;
   /** RegularExpression Id. */
-  int FUNCTIONCLAMP = 141;
+  int FUNCTIONROUND = 141;
   /** RegularExpression Id. */
-  int FUNCTIONATTR = 142;
+  int FUNCTIONCLAMP = 142;
   /** RegularExpression Id. */
-  int FUNCTIONVAR = 143;
+  int FUNCTIONATTR = 143;
   /** RegularExpression Id. */
-  int FUNCTIONENV = 144;
+  int FUNCTIONVAR = 144;
   /** RegularExpression Id. */
-  int FUNCTIONLAYER = 145;
+  int FUNCTIONENV = 145;
   /** RegularExpression Id. */
-  int FUNCTION = 146;
+  int FUNCTIONLAYER = 146;
   /** RegularExpression Id. */
-  int HTMLSTARTTAG = 147;
+  int FUNCTION = 147;
   /** RegularExpression Id. */
-  int HTMLENDTAG = 148;
+  int HTMLSTARTTAG = 148;
+  /** RegularExpression Id. */
+  int HTMLENDTAG = 149;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -357,7 +359,7 @@ public interface CssParserConstants {
     "<HASHIDENT>",
     "<HASH>",
     "<PROGID>",
-    "<CUSTOM_PROPERTY_NAME>",
+    "<DASHED_IDENT>",
     "\"}\"",
     "\"^=\"",
     "\"$=\"",
@@ -413,6 +415,7 @@ public interface CssParserConstants {
     "\"@namespace\"",
     "\"@media\"",
     "\"@font-face\"",
+    "\"@font-palette-values\"",
     "\"@keyframes\"",
     "\"@preference\"",
     "\"@color-profile\"",

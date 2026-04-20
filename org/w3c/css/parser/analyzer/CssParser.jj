@@ -25,6 +25,7 @@ package org.w3c.css.parser.analyzer;
 
 import org.w3c.css.atrules.css.AtRuleCounterStyle;
 import org.w3c.css.atrules.css.AtRuleFontFace;
+import org.w3c.css.atrules.css.AtRuleFontPaletteValues;
 import org.w3c.css.atrules.css.AtRuleKeyframes;
 import org.w3c.css.atrules.css.AtRuleLayer;
 import org.w3c.css.atrules.css.AtRuleMedia;
@@ -618,7 +619,7 @@ TOKEN :
 <DEFAULT>
 TOKEN :
 {
-    <CUSTOM_PROPERTY_NAME : <MINUS> <MINUS> ( <NMSTART> ( <NMCHAR> )* )? >
+    <DASHED_IDENT : <MINUS> <MINUS> ( <NMSTART> ( <NMCHAR> )* )? >
 }
 
 <DEFAULT>
@@ -732,20 +733,21 @@ TOKEN [IGNORE_CASE] :
 <DEFAULT>
 TOKEN [IGNORE_CASE] :
 { 
-    < IMPORT_SYM            : "@import">
-  | < NAMESPACE_SYM         : "@namespace">
-  | < MEDIA_SYM             : "@media" >
-  | < FONT_FACE_SYM         : "@font-face" >
-  | < KEYFRAMES_SYM         : "@keyframes" >
-  | < PREF_SYM              : "@preference" >
-  | < COLOR_PROFILE         : "@color-profile" >
-  | < A_COUNTER             : "@counter" >
-  | < COUNTER_STYLE_SYM     : "@counter-style" > 
-  | < LAYER_SYM             : "@layer" >
-  | < PHONETIC_ALPHABET_SYM : "@phonetic-alphabet" >
-  | < SUPPORTS_SYM          : "@supports" >
-  | < VIEWPORT_SYM          : "@viewport" >
-  | < ATKEYWORD             : "@" <IDENT> >
+    < IMPORT_SYM              : "@import">
+  | < NAMESPACE_SYM           : "@namespace">
+  | < MEDIA_SYM               : "@media" >
+  | < FONT_FACE_SYM           : "@font-face" >
+  | < FONT_PALETTE_VALUES_SYM : "@font-palette-values" >
+  | < KEYFRAMES_SYM           : "@keyframes" >
+  | < PREF_SYM                : "@preference" >
+  | < COLOR_PROFILE           : "@color-profile" >
+  | < A_COUNTER               : "@counter" >
+  | < COUNTER_STYLE_SYM       : "@counter-style" > 
+  | < LAYER_SYM               : "@layer" >
+  | < PHONETIC_ALPHABET_SYM   : "@phonetic-alphabet" >
+  | < SUPPORTS_SYM            : "@supports" >
+  | < VIEWPORT_SYM            : "@viewport" >
+  | < ATKEYWORD               : "@" <IDENT> >
 }
 
 <DEFAULT>
@@ -930,9 +932,9 @@ void charset() :
 void nested_at_rules() : {
 }
 {
-  ( media() | page() | fontFace() | keyframes() | preference() | viewport()
-    | colorprofile() | counterstyle() | phoneticAlphabet() | supports()
-    | atRuleDeclaration() | layer() )
+  ( media() | page() | fontFace() | fontPaletteValues() | keyframes()
+    | preference() | viewport() | colorprofile() | counterstyle()
+    | phoneticAlphabet() | supports() | atRuleDeclaration() | layer() )
 }
 
 void afterImportDeclaration() :
@@ -1688,6 +1690,53 @@ void fontFace() :
     }
 }
 
+void fontPaletteValues() :
+{
+    ArrayList<CssProperty> v;
+    AtRule old = getAtRule();
+    setAtRule(new AtRuleFontPaletteValues());
+    CssSelectors s = new CssSelectors(ac);
+    s.setAtRule(getAtRule());
+    Token n = null;
+    boolean notCss3 = (ac.getCssVersion().compareTo(CssVersion.CSS3) < 0);
+}
+{
+    try {
+        <FONT_PALETTE_VALUES_SYM> ( <S> )* 
+            {
+                if (notCss3) {
+                    skipStatement();
+                    addError(new InvalidParamException("noatruleyet", "", ac),
+                             getAtRule().toString());
+                } else {
+                    newAtRule(getAtRule());
+                }
+
+            }
+        n=<DASHED_IDENT> ( <S> )* {
+            }
+        <LBRACE> ( <S> )* v=declarations() <RBRACE> ( <S> )*
+             {
+                 if (!notCss3) {
+                     addProperty(v);
+                     endOfRule();
+                     endOfAtRule();
+                 }
+                 if (v == null) {
+                     ac.getFrame().addWarning("no-declaration");
+                 } else {
+                     handleRule(s, v);
+                 }
+             }
+    } catch (ParseException e) {
+        if (!notCss3) {
+            addError(e, skipStatement());
+        }
+    } finally {
+        setAtRule(old);
+    }
+}
+
 void colorprofile() :
 {
     ArrayList<CssProperty> v;
@@ -2053,7 +2102,7 @@ String property() :
 {
  // ( hack? ident | hackedIdent ) ( <S> )*
     ( (hack="!" | hack="$" | hack="%" |  hack="&" | hack="`" | hack="?" | hack="<" | hack="|" | hack=<ANY> | hack=<EQ> | hack=<RBRACKET> | hack=<LBRACKET> | hack=<RPAREN> | hack=<LPAREN> | hack=<COLON> | hack=<TILDE> | hack=<PLUS> | hack=<COMMA> | hack=<GREATER> | hack=<DIV>)?
-    n=ident() | n=<CUSTOM_PROPERTY_NAME>) ( <S> )* {
+    n=ident() | n=<DASHED_IDENT>) ( <S> )* {
                  currentProperty = convertIdent(n.image);
                  if (hack != null && !"".equals(hack)) {
                    String hackp = hack.image+currentProperty;
@@ -3292,7 +3341,7 @@ void term(CssExpression exp) :
 		setValue(new CssIdent(), exp, operator, n, IDENT);
 	    }
         }
-        | n=<CUSTOM_PROPERTY_NAME> { setValue(new CssDashedIdent(), exp, operator, n, CUSTOM_PROPERTY_NAME); }
+        | n=<DASHED_IDENT> { setValue(new CssDashedIdent(), exp, operator, n, DASHED_IDENT); }
         | hashident(exp)
         | n=<URL> { 
 	    CssURL _u = new CssURL();
@@ -3766,7 +3815,7 @@ CssCheckableValue functionvar() :
  CssVariable var;
 }
 {
-  <FUNCTIONVAR> ( <S> )* n=<CUSTOM_PROPERTY_NAME> {
+  <FUNCTIONVAR> ( <S> )* n=<DASHED_IDENT> {
       var = new CssVariable(ac, convertIdent(n.image));
   } 
   ( <COMMA> ( <S> )* try {

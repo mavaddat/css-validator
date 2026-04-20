@@ -642,6 +642,7 @@ public class Css3Style extends ATSCStyle {
     public org.w3c.css.properties.css.fontface.CssFontFamily fontFaceCssFontFamily;
     public org.w3c.css.properties.css.fontface.CssFontFeatureSettings fontFaceCssFontFeatureSettings;
     public org.w3c.css.properties.css.fontface.CssFontVariationSettings fontFaceCssFontVariationSettings;
+    public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily fontPaletteValuesCssFontFamily;
     public CssSizeAdjust fontFaceCssSizeAdjust;
     public CssSuperscriptPositionOverride fontFaceCssSuperscriptPositionOverride;
     public CssSubscriptPositionOverride fontFaceCssSubscriptPositionOverride;
@@ -1639,7 +1640,16 @@ public class Css3Style extends ATSCStyle {
         }
         return pageCssMarks;
     }
-
+    
+    public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily getFontPaletteValuesCssFontFamily() {
+        if (fontPaletteValuesCssFontFamily == null) {
+            fontPaletteValuesCssFontFamily =
+                    (org.w3c.css.properties.css.fontpalettevalues.CssFontFamily) style.CascadingOrder(new org.w3c.css.properties.css.fontpalettevalues.CssFontFamily(),
+                            style, selector);
+        }
+        return fontPaletteValuesCssFontFamily;
+    }
+    
     public org.w3c.css.properties.css.fontface.CssFontFamily getFontFaceCssFontFamily() {
         if (fontFaceCssFontFamily == null) {
             fontFaceCssFontFamily =

@@ -348,6 +348,7 @@ import org.w3c.css.properties.css.fontface.CssSuperscriptPositionOverride;
 import org.w3c.css.properties.css.fontface.CssSuperscriptSizeOverride;
 import org.w3c.css.properties.css.fontface.CssUnicodeRange;
 import org.w3c.css.properties.css.fontpalettevalues.CssBasePalette;
+import org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors;
 import org.w3c.css.properties.css.viewport.CssMaxZoom;
 import org.w3c.css.properties.css.viewport.CssMinZoom;
 import org.w3c.css.properties.css.viewport.CssOrientation;
@@ -645,6 +646,7 @@ public class Css3Style extends ATSCStyle {
     public org.w3c.css.properties.css.fontface.CssFontVariationSettings fontFaceCssFontVariationSettings;
     public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily fontPaletteValuesCssFontFamily;
     public CssBasePalette fontPaletteValuesCssBasePalette;
+    public CssOverrideColors fontPaletteValuesCssOverrideColors;
     public CssSizeAdjust fontFaceCssSizeAdjust;
     public CssSuperscriptPositionOverride fontFaceCssSuperscriptPositionOverride;
     public CssSubscriptPositionOverride fontFaceCssSubscriptPositionOverride;
@@ -1641,6 +1643,15 @@ public class Css3Style extends ATSCStyle {
                             style, selector);
         }
         return pageCssMarks;
+    }
+
+    public org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors getFontPaletteValuesCssOverrideColors() {
+        if (fontPaletteValuesCssOverrideColors == null) {
+            fontPaletteValuesCssOverrideColors =
+                    (org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors) style.CascadingOrder(new org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors(),
+                            style, selector);
+        }
+        return fontPaletteValuesCssOverrideColors;
     }
 
     public org.w3c.css.properties.css.fontpalettevalues.CssBasePalette getFontPaletteValuesCssBasePalette() {

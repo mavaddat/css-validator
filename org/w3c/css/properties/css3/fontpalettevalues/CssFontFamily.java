@@ -1,7 +1,7 @@
 //
 // Author: Yves Lafon <ylafon@w3.org>
 //
-// (c) COPYRIGHT MIT, ERCIM, Keio, Beihang, 2018.
+// (c) COPYRIGHT W3C, 2026.
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.css.properties.css3.fontpalettevalues;
 
@@ -20,7 +20,7 @@ import static org.w3c.css.values.CssOperator.COMMA;
 import static org.w3c.css.values.CssOperator.SPACE;
 
 /**
- * @spec https://www.w3.org/TR/2021/WD-css-fonts-4-20210729/#descdef-font-face-font-family
+ * @spec https://www.w3.org/TR/2026/WD-css-fonts-4-20260303/#descdef-font-palette-values-font-family
  * @see org.w3c.css.properties.css3.CssFontFamily
  */
 public class CssFontFamily extends org.w3c.css.properties.css.fontpalettevalues.CssFontFamily {

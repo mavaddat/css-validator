@@ -70,6 +70,7 @@ public class CssOverrideColors extends org.w3c.css.properties.css.fontpaletteval
                 expression.next();
             }
             CssColor css3Color = new CssColor(ac, exp, check);
+            // TODO FIXME need to check that it is an absolute color
             if (exp.getCount() == 1) {
                 values.add(val);
             } else {

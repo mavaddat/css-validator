@@ -5,6 +5,7 @@
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.css.properties.css3.fontface;
 
+import org.w3c.css.properties.css3.CssFontWidth;
 import org.w3c.css.util.ApplContext;
 import org.w3c.css.util.InvalidParamException;
 import org.w3c.css.values.CssExpression;
@@ -15,12 +16,12 @@ import org.w3c.css.values.CssValueList;
 
 import java.util.ArrayList;
 
-import static org.w3c.css.properties.css3.CssFontStretch.getAllowedValue;
+import static org.w3c.css.properties.css3.CssFontWidth.getAllowedValue;
 import static org.w3c.css.values.CssOperator.SPACE;
 
 /**
  * @spec https://www.w3.org/TR/2021/WD-css-fonts-4-20210729/#descdef-font-face-font-stretch
- * @see org.w3c.css.properties.css3.CssFontStretch
+ * @see CssFontWidth
  */
 public class CssFontStretch extends org.w3c.css.properties.css.fontface.CssFontStretch {
 

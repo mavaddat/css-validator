@@ -124,6 +124,7 @@ import org.w3c.css.properties.css.CssFontVariantLigatures;
 import org.w3c.css.properties.css.CssFontVariantNumeric;
 import org.w3c.css.properties.css.CssFontVariantPosition;
 import org.w3c.css.properties.css.CssFontVariationSettings;
+import org.w3c.css.properties.css.CssFontWidth;
 import org.w3c.css.properties.css.CssForcedColorAdjust;
 import org.w3c.css.properties.css.CssGap;
 import org.w3c.css.properties.css.CssGrid;
@@ -515,6 +516,7 @@ public class Css3Style extends ATSCStyle {
     public CssFontOpticalSizing cssFontOpticalSizing;
     public CssFontPalette cssFontPalette;
     public CssFontVariationSettings cssFontVariationSettings;
+    public CssFontWidth cssFontWidth;
 
     public CssOverflowWrap cssOverflowWrap;
     public CssWordBreak cssWordBreak;
@@ -3207,6 +3209,15 @@ public class Css3Style extends ATSCStyle {
         return cssBoxDecorationBreak;
     }
 
+    public CssFontWidth getFontWidth() {
+        if (cssFontWidth == null) {
+            cssFontWidth =
+                    (CssFontWidth) style.CascadingOrder(
+                            new CssFontWidth(), style, selector);
+        }
+        return cssFontWidth;
+    }
+    
     public CssFontKerning getFontKerning() {
         if (cssFontKerning == null) {
             cssFontKerning =

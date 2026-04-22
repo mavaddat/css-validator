@@ -113,6 +113,7 @@ import org.w3c.css.properties.css.CssFontLanguageOverride;
 import org.w3c.css.properties.css.CssFontOpticalSizing;
 import org.w3c.css.properties.css.CssFontPalette;
 import org.w3c.css.properties.css.CssFontSynthesis;
+import org.w3c.css.properties.css.CssFontSynthesisPosition;
 import org.w3c.css.properties.css.CssFontSynthesisSmallCaps;
 import org.w3c.css.properties.css.CssFontSynthesisStyle;
 import org.w3c.css.properties.css.CssFontSynthesisWeight;
@@ -510,6 +511,7 @@ public class Css3Style extends ATSCStyle {
     public CssFontVariantAlternates cssFontVariantAlternates;
     public CssFontSynthesisSmallCaps cssFontSynthesisSmallCaps;
     public CssFontSynthesisStyle cssFontSynthesisStyle;
+    public CssFontSynthesisPosition cssFontSynthesisPosition;
     public CssFontSynthesisWeight cssFontSynthesisWeight;
     public CssFontVariantEmoji cssFontVariantEmoji;
     public CssFontOpticalSizing cssFontOpticalSizing;
@@ -3260,6 +3262,15 @@ public class Css3Style extends ATSCStyle {
                             new CssFontSynthesisSmallCaps(), style, selector);
         }
         return cssFontSynthesisSmallCaps;
+    }
+
+    public CssFontSynthesisPosition getFontSynthesisPosition() {
+        if (cssFontSynthesisPosition == null) {
+            cssFontSynthesisPosition =
+                    (CssFontSynthesisPosition) style.CascadingOrder(
+                            new CssFontSynthesisPosition(), style, selector);
+        }
+        return cssFontSynthesisPosition;
     }
 
     public CssFontSynthesisStyle getFontSynthesisStyle() {

@@ -5,7 +5,6 @@
 // Please first read the full copyright statement in file COPYRIGHT.html
 package org.w3c.css.properties.css3.fontface;
 
-import org.w3c.css.properties.css3.CssFontWidth;
 import org.w3c.css.util.ApplContext;
 import org.w3c.css.util.InvalidParamException;
 import org.w3c.css.values.CssExpression;
@@ -20,27 +19,27 @@ import static org.w3c.css.properties.css3.CssFontWidth.getAllowedValue;
 import static org.w3c.css.values.CssOperator.SPACE;
 
 /**
- * @spec https://www.w3.org/TR/2021/WD-css-fonts-4-20210729/#descdef-font-face-font-stretch
- * @see CssFontWidth
+ * @spec https://www.w3.org/TR/2026/WD-css-fonts-4-20260303/#descdef-font-face-font-width
+ * @see org.w3c.css.properties.css3.CssFontWidth
  */
-public class CssFontStretch extends org.w3c.css.properties.css.fontface.CssFontStretch {
+public class CssFontWidth extends org.w3c.css.properties.css.fontface.CssFontWidth {
 
     public static final CssIdent auto = CssIdent.getIdent("auto");
 
     /**
-     * Create a new CssFontStretch
+     * Create a new CssFontWidth
      */
-    public CssFontStretch() {
+    public CssFontWidth() {
         value = initial;
     }
 
     /**
-     * Creates a new CssFontStretch
+     * Creates a new CssFontWidth
      *
      * @param expression The expression for this property
      * @throws InvalidParamException Expressions are incorrect
      */
-    public CssFontStretch(ApplContext ac, CssExpression expression, boolean check)
+    public CssFontWidth(ApplContext ac, CssExpression expression, boolean check)
             throws InvalidParamException {
         if (check && expression.getCount() > 2) {
             throw new InvalidParamException("unrecognize", ac);
@@ -91,7 +90,7 @@ public class CssFontStretch extends org.w3c.css.properties.css.fontface.CssFontS
         value = (values.size() == 1) ? values.get(0) : new CssValueList(values);
     }
 
-    public CssFontStretch(ApplContext ac, CssExpression expression)
+    public CssFontWidth(ApplContext ac, CssExpression expression)
             throws InvalidParamException {
         this(ac, expression, false);
     }

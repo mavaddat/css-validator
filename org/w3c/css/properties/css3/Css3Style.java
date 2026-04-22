@@ -338,7 +338,6 @@ import org.w3c.css.properties.css.fontface.CssAscentOverride;
 import org.w3c.css.properties.css.fontface.CssDescentOverride;
 import org.w3c.css.properties.css.fontface.CssFontDisplay;
 import org.w3c.css.properties.css.fontface.CssFontNamedInstance;
-import org.w3c.css.properties.css.fontface.CssFontStretch;
 import org.w3c.css.properties.css.fontface.CssFontStyle;
 import org.w3c.css.properties.css.fontface.CssFontWeight;
 import org.w3c.css.properties.css.fontface.CssLineGapOverride;
@@ -635,7 +634,7 @@ public class Css3Style extends ATSCStyle {
 
     public CssFontDisplay fontFaceCssFontDisplay;
     public CssFontWeight fontFaceCssFontWeight;
-    public CssFontStretch fontFaceCssFontStretch;
+    public org.w3c.css.properties.css.fontface.CssFontWidth fontFaceCssFontWidth;
     public CssFontStyle fontFaceCssFontStyle;
     public org.w3c.css.properties.css.fontface.CssFontLanguageOverride fontFaceCssFontLanguageOverride;
     public CssFontNamedInstance fontFaceCssFontNamedInstance;
@@ -1809,13 +1808,13 @@ public class Css3Style extends ATSCStyle {
         return fontFaceCssFontDisplay;
     }
 
-    public CssFontStretch getFontFaceCssFontStretch() {
-        if (fontFaceCssFontStretch == null) {
-            fontFaceCssFontStretch =
-                    (CssFontStretch) style.CascadingOrder(new CssFontStretch(),
+    public org.w3c.css.properties.css.fontface.CssFontWidth getFontFaceCssFontWidth() {
+        if (fontFaceCssFontWidth == null) {
+            fontFaceCssFontWidth =
+                    (org.w3c.css.properties.css.fontface.CssFontWidth) style.CascadingOrder(new org.w3c.css.properties.css.fontface.CssFontWidth(),
                             style, selector);
         }
-        return fontFaceCssFontStretch;
+        return fontFaceCssFontWidth;
     }
 
     public CssFontStyle getFontFaceCssFontStyle() {

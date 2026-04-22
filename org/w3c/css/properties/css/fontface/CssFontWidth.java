@@ -15,28 +15,28 @@ import org.w3c.css.values.CssExpression;
 /**
  * @since CSS3
  */
-public class CssFontStretch extends CssProperty {
+public class CssFontWidth extends CssProperty {
 
     /**
-     * Create a new CssFontStretch
+     * Create a new CssFontWidth
      */
-    public CssFontStretch() {
+    public CssFontWidth() {
     }
 
     /**
-     * Creates a new CssFontStretch
+     * Creates a new CssFontWidth
      *
      * @param expression The expression for this property
      * @throws InvalidParamException Expressions are incorrect
      */
-    public CssFontStretch(ApplContext ac, CssExpression expression, boolean check)
+    public CssFontWidth(ApplContext ac, CssExpression expression, boolean check)
             throws InvalidParamException {
         throw new InvalidParamException("value",
                 expression.getValue().toString(),
                 getPropertyName(), ac);
     }
 
-    public CssFontStretch(ApplContext ac, CssExpression expression)
+    public CssFontWidth(ApplContext ac, CssExpression expression)
             throws InvalidParamException {
         this(ac, expression, false);
     }
@@ -53,7 +53,7 @@ public class CssFontStretch extends CssProperty {
      * Returns the name of this property
      */
     public final String getPropertyName() {
-        return "font-stretch";
+        return "font-Width";
     }
 
     /**
@@ -78,10 +78,10 @@ public class CssFontStretch extends CssProperty {
      */
     public void addToStyle(ApplContext ac, CssStyle style) {
         Css3Style s = (Css3Style) style;
-        if (s.fontFaceCssFontStretch != null) {
+        if (s.fontFaceCssFontWidth != null) {
             style.addRedefinitionWarning(ac, this);
         }
-        s.fontFaceCssFontStretch = this;
+        s.fontFaceCssFontWidth = this;
     }
 
 
@@ -91,7 +91,7 @@ public class CssFontStretch extends CssProperty {
      * @param property The other property.
      */
     public boolean equals(CssProperty property) {
-        return (property instanceof CssFontStretch &&
+        return (property instanceof CssFontWidth &&
                 value.equals(property.value));
     }
 
@@ -104,9 +104,9 @@ public class CssFontStretch extends CssProperty {
      */
     public CssProperty getPropertyInStyle(CssStyle style, boolean resolve) {
         if (resolve) {
-            return ((Css3Style) style).getFontFaceCssFontStretch();
+            return ((Css3Style) style).getFontFaceCssFontWidth();
         } else {
-            return ((Css3Style) style).fontFaceCssFontStretch;
+            return ((Css3Style) style).fontFaceCssFontWidth;
         }
     }
 }

@@ -25,6 +25,7 @@ package org.w3c.css.parser.analyzer;
 
 import org.w3c.css.atrules.css.AtRuleCounterStyle;
 import org.w3c.css.atrules.css.AtRuleFontFace;
+import org.w3c.css.atrules.css.AtRuleFontFeatureValues;
 import org.w3c.css.atrules.css.AtRuleFontPaletteValues;
 import org.w3c.css.atrules.css.AtRuleKeyframes;
 import org.w3c.css.atrules.css.AtRuleLayer;
@@ -732,12 +733,25 @@ TOKEN [IGNORE_CASE] :
 
 <DEFAULT>
 TOKEN [IGNORE_CASE] :
+{
+    < FONT_FACE_SYM           : "@font-face" >
+  | < FONT_FEATURE_VALUES_SYM : "@font-feature-values" >
+  | < FONT_PALETTE_VALUES_SYM : "@font-palette-values" >
+  | < STYLISTIC_SYM	      : "@stylistic" >
+  | < HISTORICAL_FORMS_SYM    : "@historical-forms" >
+  | < STYLESET_SYM            : "@styleset" >
+  | < CHARACTER_VARIANT_SYM   : "@character-variant" >
+  | < SWASH_SYM               : "@swash" >
+  | < ORNAMENTS_SYM           : "@ornaments" >
+  | < ANNOTATION_SYM          : "@annotation" >
+}
+
+<DEFAULT>
+TOKEN [IGNORE_CASE] :
 { 
     < IMPORT_SYM              : "@import">
   | < NAMESPACE_SYM           : "@namespace">
   | < MEDIA_SYM               : "@media" >
-  | < FONT_FACE_SYM           : "@font-face" >
-  | < FONT_PALETTE_VALUES_SYM : "@font-palette-values" >
   | < KEYFRAMES_SYM           : "@keyframes" >
   | < PREF_SYM                : "@preference" >
   | < COLOR_PROFILE           : "@color-profile" >
@@ -749,6 +763,9 @@ TOKEN [IGNORE_CASE] :
   | < VIEWPORT_SYM            : "@viewport" >
   | < ATKEYWORD               : "@" <IDENT> >
 }
+
+
+
 
 <DEFAULT>
 TOKEN [IGNORE_CASE] :
@@ -932,7 +949,7 @@ void charset() :
 void nested_at_rules() : {
 }
 {
-  ( media() | page() | fontFace() | fontPaletteValues() | keyframes()
+  ( media() | page() | fontFace() | fontPaletteValues() | fontFeatureValues() | keyframes()
     | preference() | viewport() | colorprofile() | counterstyle()
     | phoneticAlphabet() | supports() | atRuleDeclaration() | layer() )
 }
@@ -1687,6 +1704,93 @@ void fontFace() :
         }
     } finally {
 	setAtRule(old);
+    }
+}
+
+void fontFeatureValuesAtRules() :
+{
+    ArrayList<CssProperty> v;
+    Token n;
+}
+{
+   try {
+      ( n=<STYLISTIC_SYM> | n=<HISTORICAL_FORMS_SYM> | n=<STYLESET_SYM>
+        | n=<CHARACTER_VARIANT_SYM> | n=<SWASH_SYM> | n=<ORNAMENTS_SYM>
+        | n=<ANNOTATION_SYM> )
+      <LBRACE> ( <S> )*
+           v=declarations() {
+           }
+      <RBRACE> ( <S> )*
+    } catch (ParseException e) {
+        addError(e, skipStatement());
+    }
+}
+
+void fontFeatureValues() :
+{
+    ArrayList<CssProperty> v = null;
+    ArrayList<CssProperty> allv = null;
+    CssProperty p = null;
+    AtRule old = getAtRule();
+    AtRuleFontFeatureValues ffv = new AtRuleFontFeatureValues();
+    setAtRule(ffv);
+    CssSelectors s = new CssSelectors(ac);
+    s.setAtRule(getAtRule());
+    Token n = null;
+    CssExpression exp = null;
+    boolean notCss3 = (ac.getCssVersion().compareTo(CssVersion.CSS3) < 0);
+    boolean gotContent = false;
+}
+{
+    try {
+        <FONT_FEATURE_VALUES_SYM> ( <S> )*
+            {
+                if (notCss3) {
+                    skipStatement();
+                    addError(new InvalidParamException("noatruleyet", "", ac),
+                             getAtRule().toString());
+                } else {
+                    newAtRule(getAtRule());
+                }
+
+            }
+        exp=expr() ( <S> )* {
+	        ffv.setTarget(ac, exp);
+            }
+        <LBRACE> ( <S> )* v=declarations() {
+		if ( v != null ) {
+         	    gotContent = true;
+                    if (allv == null) {
+			allv = new ArrayList<>();
+                    }
+             	    allv.addAll(v);
+         	}
+             }  ( fontFeatureValuesAtRules() { gotContent = true; } v=declarations() {
+		      if ( v != null ) {
+			  gotContent = true;
+                          if (allv == null) {
+                              allv = new ArrayList<>();
+                          }
+                          allv.addAll(v);
+                      }
+                  } )*
+         <RBRACE> ( <S> )* {
+             if (!notCss3) {
+                 if (!gotContent) {
+		     ac.getFrame().addWarning("no-declaration");
+		 } else if (v != null) {
+                     handleRule(s, v);
+                 }
+                 endOfRule();
+                 endOfAtRule();
+             }
+         }
+    } catch (ParseException e) {
+        if (!notCss3) {
+            addError(e, skipStatement());
+        }
+    } finally {
+        setAtRule(old);
     }
 }
 

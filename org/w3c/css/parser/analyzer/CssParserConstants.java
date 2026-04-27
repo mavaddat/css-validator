@@ -99,7 +99,7 @@ public interface CssParserConstants {
   /** RegularExpression Id. */
   int PROGID = 44;
   /** RegularExpression Id. */
-  int CUSTOM_PROPERTY_NAME = 45;
+  int DASHED_IDENT = 45;
   /** RegularExpression Id. */
   int RBRACE = 46;
   /** RegularExpression Id. */
@@ -203,109 +203,127 @@ public interface CssParserConstants {
   /** RegularExpression Id. */
   int PAGE_RIGHT_BOTTOM = 96;
   /** RegularExpression Id. */
-  int IMPORT_SYM = 97;
+  int FONT_FACE_SYM = 97;
   /** RegularExpression Id. */
-  int NAMESPACE_SYM = 98;
+  int FONT_FEATURE_VALUES_SYM = 98;
   /** RegularExpression Id. */
-  int MEDIA_SYM = 99;
+  int FONT_PALETTE_VALUES_SYM = 99;
   /** RegularExpression Id. */
-  int FONT_FACE_SYM = 100;
+  int STYLISTIC_SYM = 100;
   /** RegularExpression Id. */
-  int KEYFRAMES_SYM = 101;
+  int HISTORICAL_FORMS_SYM = 101;
   /** RegularExpression Id. */
-  int PREF_SYM = 102;
+  int STYLESET_SYM = 102;
   /** RegularExpression Id. */
-  int COLOR_PROFILE = 103;
+  int CHARACTER_VARIANT_SYM = 103;
   /** RegularExpression Id. */
-  int A_COUNTER = 104;
+  int SWASH_SYM = 104;
   /** RegularExpression Id. */
-  int COUNTER_STYLE_SYM = 105;
+  int ORNAMENTS_SYM = 105;
   /** RegularExpression Id. */
-  int LAYER_SYM = 106;
+  int ANNOTATION_SYM = 106;
   /** RegularExpression Id. */
-  int PHONETIC_ALPHABET_SYM = 107;
+  int IMPORT_SYM = 107;
   /** RegularExpression Id. */
-  int SUPPORTS_SYM = 108;
+  int NAMESPACE_SYM = 108;
   /** RegularExpression Id. */
-  int VIEWPORT_SYM = 109;
+  int MEDIA_SYM = 109;
   /** RegularExpression Id. */
-  int ATKEYWORD = 110;
+  int KEYFRAMES_SYM = 110;
   /** RegularExpression Id. */
-  int RANGE0 = 111;
+  int PREF_SYM = 111;
   /** RegularExpression Id. */
-  int RANGE1 = 112;
+  int COLOR_PROFILE = 112;
   /** RegularExpression Id. */
-  int RANGE2 = 113;
+  int A_COUNTER = 113;
   /** RegularExpression Id. */
-  int RANGE3 = 114;
+  int COUNTER_STYLE_SYM = 114;
   /** RegularExpression Id. */
-  int RANGE4 = 115;
+  int LAYER_SYM = 115;
   /** RegularExpression Id. */
-  int RANGE5 = 116;
+  int PHONETIC_ALPHABET_SYM = 116;
   /** RegularExpression Id. */
-  int RANGE6 = 117;
+  int SUPPORTS_SYM = 117;
   /** RegularExpression Id. */
-  int RANGE = 118;
+  int VIEWPORT_SYM = 118;
   /** RegularExpression Id. */
-  int UNI = 119;
+  int ATKEYWORD = 119;
   /** RegularExpression Id. */
-  int UNICODERANGE = 120;
+  int RANGE0 = 120;
   /** RegularExpression Id. */
-  int FUNCTIONLANG = 121;
+  int RANGE1 = 121;
   /** RegularExpression Id. */
-  int FUNCTIONDIR = 122;
+  int RANGE2 = 122;
   /** RegularExpression Id. */
-  int FUNCTIONIS = 123;
+  int RANGE3 = 123;
   /** RegularExpression Id. */
-  int FUNCTIONWHERE = 124;
+  int RANGE4 = 124;
   /** RegularExpression Id. */
-  int FUNCTIONHAS = 125;
+  int RANGE5 = 125;
   /** RegularExpression Id. */
-  int FUNCTIONSLOTTED = 126;
+  int RANGE6 = 126;
   /** RegularExpression Id. */
-  int FUNCTIONHOST = 127;
+  int RANGE = 127;
   /** RegularExpression Id. */
-  int FUNCTIONHOSTCONTEXT = 128;
+  int UNI = 128;
   /** RegularExpression Id. */
-  int FUNCTIONNTHCHILD = 129;
+  int UNICODERANGE = 129;
   /** RegularExpression Id. */
-  int FUNCTIONNTHLASTCHILD = 130;
+  int FUNCTIONLANG = 130;
   /** RegularExpression Id. */
-  int FUNCTIONNTHCOL = 131;
+  int FUNCTIONDIR = 131;
   /** RegularExpression Id. */
-  int FUNCTIONNTHLASTCOL = 132;
+  int FUNCTIONIS = 132;
   /** RegularExpression Id. */
-  int FUNCTIONNTHOFTYPE = 133;
+  int FUNCTIONWHERE = 133;
   /** RegularExpression Id. */
-  int FUNCTIONNTHLASTOFTYPE = 134;
+  int FUNCTIONHAS = 134;
   /** RegularExpression Id. */
-  int FUNCTIONNOT = 135;
+  int FUNCTIONSLOTTED = 135;
   /** RegularExpression Id. */
-  int FUNCTIONCALC = 136;
+  int FUNCTIONHOST = 136;
   /** RegularExpression Id. */
-  int FUNCTIONMATHN = 137;
+  int FUNCTIONHOSTCONTEXT = 137;
   /** RegularExpression Id. */
-  int FUNCTIONMATH1 = 138;
+  int FUNCTIONNTHCHILD = 138;
   /** RegularExpression Id. */
-  int FUNCTIONMATH2 = 139;
+  int FUNCTIONNTHLASTCHILD = 139;
   /** RegularExpression Id. */
-  int FUNCTIONROUND = 140;
+  int FUNCTIONNTHCOL = 140;
   /** RegularExpression Id. */
-  int FUNCTIONCLAMP = 141;
+  int FUNCTIONNTHLASTCOL = 141;
   /** RegularExpression Id. */
-  int FUNCTIONATTR = 142;
+  int FUNCTIONNTHOFTYPE = 142;
   /** RegularExpression Id. */
-  int FUNCTIONVAR = 143;
+  int FUNCTIONNTHLASTOFTYPE = 143;
   /** RegularExpression Id. */
-  int FUNCTIONENV = 144;
+  int FUNCTIONNOT = 144;
   /** RegularExpression Id. */
-  int FUNCTIONLAYER = 145;
+  int FUNCTIONCALC = 145;
   /** RegularExpression Id. */
-  int FUNCTION = 146;
+  int FUNCTIONMATHN = 146;
   /** RegularExpression Id. */
-  int HTMLSTARTTAG = 147;
+  int FUNCTIONMATH1 = 147;
   /** RegularExpression Id. */
-  int HTMLENDTAG = 148;
+  int FUNCTIONMATH2 = 148;
+  /** RegularExpression Id. */
+  int FUNCTIONROUND = 149;
+  /** RegularExpression Id. */
+  int FUNCTIONCLAMP = 150;
+  /** RegularExpression Id. */
+  int FUNCTIONATTR = 151;
+  /** RegularExpression Id. */
+  int FUNCTIONVAR = 152;
+  /** RegularExpression Id. */
+  int FUNCTIONENV = 153;
+  /** RegularExpression Id. */
+  int FUNCTIONLAYER = 154;
+  /** RegularExpression Id. */
+  int FUNCTION = 155;
+  /** RegularExpression Id. */
+  int HTMLSTARTTAG = 156;
+  /** RegularExpression Id. */
+  int HTMLENDTAG = 157;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -357,7 +375,7 @@ public interface CssParserConstants {
     "<HASHIDENT>",
     "<HASH>",
     "<PROGID>",
-    "<CUSTOM_PROPERTY_NAME>",
+    "<DASHED_IDENT>",
     "\"}\"",
     "\"^=\"",
     "\"$=\"",
@@ -409,10 +427,19 @@ public interface CssParserConstants {
     "\"@right-top\"",
     "\"@right-middle\"",
     "\"@right-bottom\"",
+    "\"@font-face\"",
+    "\"@font-feature-values\"",
+    "\"@font-palette-values\"",
+    "\"@stylistic\"",
+    "\"@historical-forms\"",
+    "\"@styleset\"",
+    "\"@character-variant\"",
+    "\"@swash\"",
+    "\"@ornaments\"",
+    "\"@annotation\"",
     "\"@import\"",
     "\"@namespace\"",
     "\"@media\"",
-    "\"@font-face\"",
     "\"@keyframes\"",
     "\"@preference\"",
     "\"@color-profile\"",

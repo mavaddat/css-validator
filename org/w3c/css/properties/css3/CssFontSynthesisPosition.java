@@ -15,14 +15,14 @@ import org.w3c.css.values.CssValue;
 import java.util.Arrays;
 
 /**
- * @spec https://www.w3.org/TR/2026/WD-css-fonts-4-20260303/#propdef-font-synthesis-style
+ * @spec https://www.w3.org/TR/2026/WD-css-fonts-4-20260303/#propdef-font-synthesis-position
  */
-public class CssFontSynthesisStyle extends org.w3c.css.properties.css.CssFontSynthesisStyle {
+public class CssFontSynthesisPosition extends org.w3c.css.properties.css.CssFontSynthesisPosition {
 
     public static final CssIdent[] allowedValues;
 
     static {
-        String[] _allowedValues = {"auto", "none", "oblique-only"};
+        String[] _allowedValues = {"auto", "none"};
         allowedValues = new CssIdent[_allowedValues.length];
         for (int i = 0; i < allowedValues.length; i++) {
             allowedValues[i] = CssIdent.getIdent(_allowedValues[i]);
@@ -40,19 +40,19 @@ public class CssFontSynthesisStyle extends org.w3c.css.properties.css.CssFontSyn
     }
 
     /**
-     * Create a new CssFontSynthesisStyle
+     * Create a new CssFontSynthesisPosition
      */
-    public CssFontSynthesisStyle() {
+    public CssFontSynthesisPosition() {
         value = initial;
     }
 
     /**
-     * Creates a new CssFontSynthesisStyle
+     * Creates a new CssFontSynthesisPosition
      *
      * @param expression The expression for this property
      * @throws InvalidParamException Expressions are incorrect
      */
-    public CssFontSynthesisStyle(ApplContext ac, CssExpression expression, boolean check)
+    public CssFontSynthesisPosition(ApplContext ac, CssExpression expression, boolean check)
             throws InvalidParamException {
         if (check && expression.getCount() > 1) {
             throw new InvalidParamException("unrecognize", ac);
@@ -80,7 +80,7 @@ public class CssFontSynthesisStyle extends org.w3c.css.properties.css.CssFontSyn
         expression.next();
     }
 
-    public CssFontSynthesisStyle(ApplContext ac, CssExpression expression)
+    public CssFontSynthesisPosition(ApplContext ac, CssExpression expression)
             throws InvalidParamException {
         this(ac, expression, false);
     }

@@ -113,6 +113,7 @@ import org.w3c.css.properties.css.CssFontLanguageOverride;
 import org.w3c.css.properties.css.CssFontOpticalSizing;
 import org.w3c.css.properties.css.CssFontPalette;
 import org.w3c.css.properties.css.CssFontSynthesis;
+import org.w3c.css.properties.css.CssFontSynthesisPosition;
 import org.w3c.css.properties.css.CssFontSynthesisSmallCaps;
 import org.w3c.css.properties.css.CssFontSynthesisStyle;
 import org.w3c.css.properties.css.CssFontSynthesisWeight;
@@ -124,6 +125,7 @@ import org.w3c.css.properties.css.CssFontVariantLigatures;
 import org.w3c.css.properties.css.CssFontVariantNumeric;
 import org.w3c.css.properties.css.CssFontVariantPosition;
 import org.w3c.css.properties.css.CssFontVariationSettings;
+import org.w3c.css.properties.css.CssFontWidth;
 import org.w3c.css.properties.css.CssForcedColorAdjust;
 import org.w3c.css.properties.css.CssGap;
 import org.w3c.css.properties.css.CssGrid;
@@ -337,7 +339,6 @@ import org.w3c.css.properties.css.fontface.CssAscentOverride;
 import org.w3c.css.properties.css.fontface.CssDescentOverride;
 import org.w3c.css.properties.css.fontface.CssFontDisplay;
 import org.w3c.css.properties.css.fontface.CssFontNamedInstance;
-import org.w3c.css.properties.css.fontface.CssFontStretch;
 import org.w3c.css.properties.css.fontface.CssFontStyle;
 import org.w3c.css.properties.css.fontface.CssFontWeight;
 import org.w3c.css.properties.css.fontface.CssLineGapOverride;
@@ -347,6 +348,8 @@ import org.w3c.css.properties.css.fontface.CssSubscriptSizeOverride;
 import org.w3c.css.properties.css.fontface.CssSuperscriptPositionOverride;
 import org.w3c.css.properties.css.fontface.CssSuperscriptSizeOverride;
 import org.w3c.css.properties.css.fontface.CssUnicodeRange;
+import org.w3c.css.properties.css.fontpalettevalues.CssBasePalette;
+import org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors;
 import org.w3c.css.properties.css.viewport.CssMaxZoom;
 import org.w3c.css.properties.css.viewport.CssMinZoom;
 import org.w3c.css.properties.css.viewport.CssOrientation;
@@ -508,11 +511,13 @@ public class Css3Style extends ATSCStyle {
     public CssFontVariantAlternates cssFontVariantAlternates;
     public CssFontSynthesisSmallCaps cssFontSynthesisSmallCaps;
     public CssFontSynthesisStyle cssFontSynthesisStyle;
+    public CssFontSynthesisPosition cssFontSynthesisPosition;
     public CssFontSynthesisWeight cssFontSynthesisWeight;
     public CssFontVariantEmoji cssFontVariantEmoji;
     public CssFontOpticalSizing cssFontOpticalSizing;
     public CssFontPalette cssFontPalette;
     public CssFontVariationSettings cssFontVariationSettings;
+    public CssFontWidth cssFontWidth;
 
     public CssOverflowWrap cssOverflowWrap;
     public CssWordBreak cssWordBreak;
@@ -631,7 +636,7 @@ public class Css3Style extends ATSCStyle {
 
     public CssFontDisplay fontFaceCssFontDisplay;
     public CssFontWeight fontFaceCssFontWeight;
-    public CssFontStretch fontFaceCssFontStretch;
+    public org.w3c.css.properties.css.fontface.CssFontWidth fontFaceCssFontWidth;
     public CssFontStyle fontFaceCssFontStyle;
     public org.w3c.css.properties.css.fontface.CssFontLanguageOverride fontFaceCssFontLanguageOverride;
     public CssFontNamedInstance fontFaceCssFontNamedInstance;
@@ -642,6 +647,10 @@ public class Css3Style extends ATSCStyle {
     public org.w3c.css.properties.css.fontface.CssFontFamily fontFaceCssFontFamily;
     public org.w3c.css.properties.css.fontface.CssFontFeatureSettings fontFaceCssFontFeatureSettings;
     public org.w3c.css.properties.css.fontface.CssFontVariationSettings fontFaceCssFontVariationSettings;
+    public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily fontPaletteValuesCssFontFamily;
+    public org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay fontFeatureValuesCssFontDisplay;
+    public CssBasePalette fontPaletteValuesCssBasePalette;
+    public CssOverrideColors fontPaletteValuesCssOverrideColors;
     public CssSizeAdjust fontFaceCssSizeAdjust;
     public CssSuperscriptPositionOverride fontFaceCssSuperscriptPositionOverride;
     public CssSubscriptPositionOverride fontFaceCssSubscriptPositionOverride;
@@ -1640,6 +1649,42 @@ public class Css3Style extends ATSCStyle {
         return pageCssMarks;
     }
 
+    public org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay getFontFeatureValuesCssFontDisplay() {
+        if (fontFeatureValuesCssFontDisplay == null) {
+            fontFeatureValuesCssFontDisplay =
+                    (org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay) style.CascadingOrder(new org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay(),
+                            style, selector);
+        }
+        return fontFeatureValuesCssFontDisplay;
+    }
+
+    public org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors getFontPaletteValuesCssOverrideColors() {
+        if (fontPaletteValuesCssOverrideColors == null) {
+            fontPaletteValuesCssOverrideColors =
+                    (org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors) style.CascadingOrder(new org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors(),
+                            style, selector);
+        }
+        return fontPaletteValuesCssOverrideColors;
+    }
+
+    public org.w3c.css.properties.css.fontpalettevalues.CssBasePalette getFontPaletteValuesCssBasePalette() {
+        if (fontPaletteValuesCssBasePalette == null) {
+            fontPaletteValuesCssBasePalette =
+                    (org.w3c.css.properties.css.fontpalettevalues.CssBasePalette) style.CascadingOrder(new org.w3c.css.properties.css.fontpalettevalues.CssBasePalette(),
+                            style, selector);
+        }
+        return fontPaletteValuesCssBasePalette;
+    }
+
+    public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily getFontPaletteValuesCssFontFamily() {
+        if (fontPaletteValuesCssFontFamily == null) {
+            fontPaletteValuesCssFontFamily =
+                    (org.w3c.css.properties.css.fontpalettevalues.CssFontFamily) style.CascadingOrder(new org.w3c.css.properties.css.fontpalettevalues.CssFontFamily(),
+                            style, selector);
+        }
+        return fontPaletteValuesCssFontFamily;
+    }
+
     public org.w3c.css.properties.css.fontface.CssFontFamily getFontFaceCssFontFamily() {
         if (fontFaceCssFontFamily == null) {
             fontFaceCssFontFamily =
@@ -1775,13 +1820,13 @@ public class Css3Style extends ATSCStyle {
         return fontFaceCssFontDisplay;
     }
 
-    public CssFontStretch getFontFaceCssFontStretch() {
-        if (fontFaceCssFontStretch == null) {
-            fontFaceCssFontStretch =
-                    (CssFontStretch) style.CascadingOrder(new CssFontStretch(),
+    public org.w3c.css.properties.css.fontface.CssFontWidth getFontFaceCssFontWidth() {
+        if (fontFaceCssFontWidth == null) {
+            fontFaceCssFontWidth =
+                    (org.w3c.css.properties.css.fontface.CssFontWidth) style.CascadingOrder(new org.w3c.css.properties.css.fontface.CssFontWidth(),
                             style, selector);
         }
-        return fontFaceCssFontStretch;
+        return fontFaceCssFontWidth;
     }
 
     public CssFontStyle getFontFaceCssFontStyle() {
@@ -3175,6 +3220,15 @@ public class Css3Style extends ATSCStyle {
         return cssBoxDecorationBreak;
     }
 
+    public CssFontWidth getFontWidth() {
+        if (cssFontWidth == null) {
+            cssFontWidth =
+                    (CssFontWidth) style.CascadingOrder(
+                            new CssFontWidth(), style, selector);
+        }
+        return cssFontWidth;
+    }
+
     public CssFontKerning getFontKerning() {
         if (cssFontKerning == null) {
             cssFontKerning =
@@ -3218,6 +3272,15 @@ public class Css3Style extends ATSCStyle {
                             new CssFontSynthesisSmallCaps(), style, selector);
         }
         return cssFontSynthesisSmallCaps;
+    }
+
+    public CssFontSynthesisPosition getFontSynthesisPosition() {
+        if (cssFontSynthesisPosition == null) {
+            cssFontSynthesisPosition =
+                    (CssFontSynthesisPosition) style.CascadingOrder(
+                            new CssFontSynthesisPosition(), style, selector);
+        }
+        return cssFontSynthesisPosition;
     }
 
     public CssFontSynthesisStyle getFontSynthesisStyle() {

@@ -648,6 +648,7 @@ public class Css3Style extends ATSCStyle {
     public org.w3c.css.properties.css.fontface.CssFontFeatureSettings fontFaceCssFontFeatureSettings;
     public org.w3c.css.properties.css.fontface.CssFontVariationSettings fontFaceCssFontVariationSettings;
     public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily fontPaletteValuesCssFontFamily;
+    public org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay fontFeatureValuesCssFontDisplay;
     public CssBasePalette fontPaletteValuesCssBasePalette;
     public CssOverrideColors fontPaletteValuesCssOverrideColors;
     public CssSizeAdjust fontFaceCssSizeAdjust;
@@ -1648,6 +1649,15 @@ public class Css3Style extends ATSCStyle {
         return pageCssMarks;
     }
 
+    public org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay getFontFeatureValuesCssFontDisplay() {
+        if (fontFeatureValuesCssFontDisplay == null) {
+            fontFeatureValuesCssFontDisplay =
+                    (org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay) style.CascadingOrder(new org.w3c.css.properties.css.fontfeaturevalues.CssFontDisplay(),
+                            style, selector);
+        }
+        return fontFeatureValuesCssFontDisplay;
+    }
+
     public org.w3c.css.properties.css.fontpalettevalues.CssOverrideColors getFontPaletteValuesCssOverrideColors() {
         if (fontPaletteValuesCssOverrideColors == null) {
             fontPaletteValuesCssOverrideColors =
@@ -1665,7 +1675,7 @@ public class Css3Style extends ATSCStyle {
         }
         return fontPaletteValuesCssBasePalette;
     }
-    
+
     public org.w3c.css.properties.css.fontpalettevalues.CssFontFamily getFontPaletteValuesCssFontFamily() {
         if (fontPaletteValuesCssFontFamily == null) {
             fontPaletteValuesCssFontFamily =
@@ -1674,7 +1684,7 @@ public class Css3Style extends ATSCStyle {
         }
         return fontPaletteValuesCssFontFamily;
     }
-    
+
     public org.w3c.css.properties.css.fontface.CssFontFamily getFontFaceCssFontFamily() {
         if (fontFaceCssFontFamily == null) {
             fontFaceCssFontFamily =
@@ -3218,7 +3228,7 @@ public class Css3Style extends ATSCStyle {
         }
         return cssFontWidth;
     }
-    
+
     public CssFontKerning getFontKerning() {
         if (cssFontKerning == null) {
             cssFontKerning =

@@ -87,4 +87,8 @@ public class AtRuleFontFeatureValues extends AtRule {
     public boolean isEmpty() {
         return false;
     }
+
+    public boolean isPropertyLookupStrict() {
+        return true;
+    }
 }

@@ -221,16 +221,18 @@ public class CssGrid extends org.w3c.css.properties.css.CssGrid {
                                 getPropertyName(), ac);
                     }
                     expression.next();
-                    val = expression.getValue();
-                    op = expression.getOperator();
-                    if (val.getType() == CssTypes.CSS_IDENT && CssGridAutoFlow.dense.equals(val.getIdent())) {
-                        values.add(val);
-                        autoFlowValues.add(CssGridAutoFlow.dense);
-                        if (op != SPACE) {
-                            throw new InvalidParamException("operator", op,
-                                    getPropertyName(), ac);
+                    if (!expression.end()) {
+                        val = expression.getValue();
+                        op = expression.getOperator();
+                        if (val.getType() == CssTypes.CSS_IDENT && CssGridAutoFlow.dense.equals(val.getIdent())) {
+                            values.add(val);
+                            autoFlowValues.add(CssGridAutoFlow.dense);
+                            if (op != SPACE) {
+                                throw new InvalidParamException("operator", op,
+                                        getPropertyName(), ac);
+                            }
+                            expression.next();
                         }
-                        expression.next();
                     }
                 } else {
                     if (CssGridAutoFlow.dense.equals(id)) {
@@ -242,6 +244,12 @@ public class CssGrid extends org.w3c.css.properties.css.CssGrid {
                                     getPropertyName(), ac);
                         }
                         expression.next();
+                        if (expression.end()) {
+                            // the end? we need 'auto-flow' here
+                            throw new InvalidParamException("value",
+                                    val.toString(),
+                                    getPropertyName(), ac);
+                        }
                         val = expression.getValue();
                         op = expression.getOperator();
                         if (val.getType() == CssTypes.CSS_IDENT && auto_flow.equals(val.getIdent())) {

@@ -92,7 +92,7 @@ public class CssGrid extends org.w3c.css.properties.css.CssGrid {
                 if (got_auto_flow) {
                     auto_flow_first = true;
                 } // else defaults to false
-            } else if (val.getType() == CssTypes.CSS_IDENT) {
+            } else if (val.getType() == CssTypes.CSS_IDENT && !got_auto_flow) {
                 got_auto_flow = auto_flow.equals(val.getIdent());
             }
             expression.next();

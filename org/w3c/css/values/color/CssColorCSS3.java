@@ -198,11 +198,13 @@ public class CssColorCSS3 {
         definedRGBColorsCSS3.put("yellow", new RGBA(true, 255, 255, 0));
         definedRGBColorsCSS3.put("yellowgreen", new RGBA(true, 154, 205, 50));
 
-        // https://www.w3.org/TR/2021/WD-css-color-4-20210601/#typedef-system-color
+        // https://www.w3.org/TR/2026/CRD-css-color-4-20260427/#typedef-system-color
         definedSystemColorsCSS3 = new HashMap<>();
-        String[] _system_colors = {"Canvas", "CanvasText", "LinkText", "VisitedText", "ActiveText",
-                "ButtonFace", "ButtonText", "ButtonBorder", "Field", "FieldText", "Highlight",
-                "HighlightText", "Mark", "MarkText", "GrayText"};
+        String[] _system_colors = {"AccentColor", "AccentColorText", "ActiveText",
+                "ButtonBorder", "ButtonFace", "ButtonText", "Canvas", "CanvasText",
+                "Field", "FieldText", "GrayText", "Highlight", "HighlightText",
+                "LinkText", "Mark", "MarkText", "SelectedItem", "SelectedItemText",
+                "VisitedText"};
         for (String s : _system_colors) {
             definedSystemColorsCSS3.put(s.toLowerCase(Locale.ENGLISH), s);
         }

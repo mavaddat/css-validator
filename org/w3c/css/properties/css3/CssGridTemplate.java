@@ -649,7 +649,7 @@ public class CssGridTemplate extends org.w3c.css.properties.css.CssGridTemplate 
                 case CssTypes.CSS_BRACKET:
                     CssBracket bracket = (CssBracket) val;
                     if (bracket.isLeft()) {
-                        if (in_line_names || got_line_names) {
+                        if (in_line_names || (got_line_names && type != RepeatType.NAME_REPEAT)) {
                             throw new InvalidParamException("value",
                                     val.toString(),
                                     caller.getPropertyName(), ac);
@@ -689,6 +689,7 @@ public class CssGridTemplate extends org.w3c.css.properties.css.CssGridTemplate 
                         case TRACK_REPEAT:
                             parseTrackSize(ac, val, caller);
                             break;
+                        case NAME_REPEAT:
                         default:
                             // wrong type?
                             throw new InvalidParamException("value",

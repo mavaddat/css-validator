@@ -97,21 +97,23 @@ public class CssGridTemplate extends org.w3c.css.properties.css.CssGridTemplate 
         if (expression.getCount() == 1) {
             // can only be 'none' or 'inherit'
             val = expression.getValue();
-            if (val.getType() != CssTypes.CSS_IDENT) {
-                throw new InvalidParamException("value",
-                        val.toString(),
-                        caller.getPropertyName(), ac);
-            }
-            CssIdent id = val.getIdent();
-            if (none.equals(id) || CssIdent.isCssWide(id)) {
-                values.add(val);
-                areaValues.add(val);
-                columnValues.add(val);
-                rowValues.add(val);
-            } else {
-                throw new InvalidParamException("value",
-                        val.toString(),
-                        caller.getPropertyName(), ac);
+            switch (val.getType()) {
+                case CssTypes.CSS_STRING:
+                    areaValues.add(val);
+                    break;
+                case CssTypes.CSS_IDENT:
+                    CssIdent id = val.getIdent();
+                    if (none.equals(id) || CssIdent.isCssWide(id)) {
+                        values.add(val);
+                        areaValues.add(val);
+                        columnValues.add(val);
+                        rowValues.add(val);
+                        break;
+                    }
+                default:
+                    throw new InvalidParamException("value",
+                            val.toString(),
+                            caller.getPropertyName(), ac);
             }
             expression.next();
         } else {

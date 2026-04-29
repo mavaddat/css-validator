@@ -676,6 +676,10 @@ public class CssGridTemplate extends org.w3c.css.properties.css.CssGridTemplate 
                         parseTrackSize(ac, val, caller);
                         got_line_names = false;
                     }
+                    if (type == RepeatType.AUTO_REPEAT) {
+                        parseFixedSize(ac, val, caller);
+                        got_line_names = false;
+                    }
                     break;
                 case CssTypes.CSS_NUMBER:
                 case CssTypes.CSS_LENGTH:

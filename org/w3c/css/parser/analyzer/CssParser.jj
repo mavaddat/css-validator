@@ -1978,6 +1978,22 @@ void counterstyle() :
   }
 }
 
+String layerident() :
+{
+  StringBuilder sb = new StringBuilder();
+  Token n = null;
+}
+{
+   n=ident() {
+     sb.append(convertIdent(n.image));
+   }
+   ( <DOT> n=ident() {
+     sb.append('.').append(convertIdent(n.image));
+   } )* ( <S> )* {
+     return sb.toString();
+   }
+}
+
 void layer() :
 {
   Token n = null;
@@ -1987,6 +2003,7 @@ void layer() :
   setAtRule(layerrule);
   CssSelectors s = new CssSelectors(ac);
   CssVersion version = ac.getCssVersion();
+  String layername;
 }
 {
   try {
@@ -1998,14 +2015,15 @@ void layer() :
       } else {
         newAtRule(layerrule);
       }
-    } ( <S> )+ ( LOOKAHEAD(2) n=ident() {
-      layerrule.addLayerName(convertIdent(n.image));
-    }                                   ( <COMMA> ( <S> )* n=ident() {
-      layerrule.addLayerName(convertIdent(n.image));
-    }                                                        )* ( <S> )* <SEMICOLON> |  ( n=ident() {
-      layerrule.setName(convertIdent(n.image));
-    }                                                                           ( <S> )* )?
-    <LBRACE> ( <S> )* ( ruleSet()  | nested_at_rules() )* <RBRACE> )
+    // we need a layerident, then wait for a <COMMA>, <SEMICOLON> or <LBRACE>, let's use syntactic lookahead.
+    } ( <S> )* ( LOOKAHEAD(layerident() ( <COMMA> | <SEMICOLON> ) ) ( layername=layerident() {
+      layerrule.addLayerName(layername);
+    }                                   ( <COMMA> ( <S> )* layername=layerident() {
+      layerrule.addLayerName(layername);
+    }                                                        )* <SEMICOLON> ) | ( ( layername=layerident() {
+      layerrule.setName(layername);
+    }                                                                          )?
+    <LBRACE> ( <S> )* ( ruleSet()  | nested_at_rules() )* <RBRACE> ) )
     ( <S> )*
   } catch (ParseException e) {
     addError(e, skipStatement());

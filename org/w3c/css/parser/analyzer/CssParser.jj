@@ -812,6 +812,8 @@ TOKEN [IGNORE_CASE] :
     | <FUNCTIONVAR           : "var("              >
     | <FUNCTIONENV           : "env("              >
     | <FUNCTIONLAYER         : "layer("            >
+    | <FUNCTIONSELECTOR      : "selector("         >
+    | <FUNCTIONATRULE        : "at-rule("          >
 }
 
 <DEFAULT>
@@ -1302,7 +1304,6 @@ void supports() :
  
 SupportsFeature supports_condition(AtRuleSupports supportsRule):
 {
-    Token t;
     SupportsFeature f = null;
     SupportsFeature nf, mf;
     boolean got_multi = false;
@@ -1333,9 +1334,34 @@ SupportsFeature supports_condition(AtRuleSupports supportsRule):
     }
 }
 
+CssIdent at_keyword():
+{
+    Token t;
+    CssIdent ident = new CssIdent();
+}
+{
+   ( t=<PAGE_SYM> | t=<PAGE_TOP_LEFT_CORNER> | t=<PAGE_TOP_LEFT> | t=<PAGE_TOP_CENTER> | t=<PAGE_TOP_RIGHT> |
+       t=<PAGE_TOP_RIGHT_CORNER> | t=<PAGE_BOTTOM_LEFT_CORNER> | t=<PAGE_BOTTOM_LEFT> | t=<PAGE_BOTTOM_CENTER> |
+       t=<PAGE_BOTTOM_RIGHT> | t=<PAGE_BOTTOM_RIGHT_CORNER> | t=<PAGE_LEFT_TOP> | t=<PAGE_LEFT_MIDDLE> |
+       t=<PAGE_LEFT_BOTTOM> | t=<PAGE_RIGHT_TOP> | t=<PAGE_RIGHT_MIDDLE> | t=<PAGE_RIGHT_BOTTOM> |
+       t=<FONT_FACE_SYM> | t=<FONT_FEATURE_VALUES_SYM> | t=<FONT_PALETTE_VALUES_SYM> | t=<STYLISTIC_SYM> |
+       t=<HISTORICAL_FORMS_SYM> | t=<STYLESET_SYM> | t=<CHARACTER_VARIANT_SYM> | t=<SWASH_SYM> |
+       t=<ORNAMENTS_SYM> | t=<ANNOTATION_SYM> | t=<IMPORT_SYM> | t=<NAMESPACE_SYM> | t=<MEDIA_SYM> |
+       t=<KEYFRAMES_SYM> | t=<PREF_SYM> | t=<COLOR_PROFILE> | t=<A_COUNTER> | t=<COUNTER_STYLE_SYM> | t=<LAYER_SYM> |
+       t=<PHONETIC_ALPHABET_SYM> | t=<SUPPORTS_SYM> | t=<VIEWPORT_SYM> | t=<ATKEYWORD> ) {
+           ident.set(convertIdent(t.image), ac);
+           return ident;
+       }
+}
+
 SupportsFeature supports_condition_in_parens(AtRuleSupports supportsRule):
 {
-    CssProperty p;
+    Token t;
+    CssProperty  p;
+    CssSelectors s;
+    Token        fct;
+    CssValue     fctval;
+    CssIdent     atrule;
     SupportsFeature f = new SupportsFeature();
     SupportsFeature nf;
 }
@@ -1343,11 +1369,17 @@ SupportsFeature supports_condition_in_parens(AtRuleSupports supportsRule):
     ( <LPAREN>  ( <S> )* 
       ( LOOKAHEAD(3) nf=supports_condition(supportsRule) { f.addFeature(nf); }
 	| p=declaration() { f.setProperty(p); }
+        | ( fct=<FUNCTIONSELECTOR> s=complex_selector(null) { f.setSelectors(s); } <RPAREN> ( <S> )* )
+        | ( fct=<FUNCTIONATRULE> ( <S> )* atrule=at_keyword() ( <S> )* <RPAREN> { f.setAtRule(atrule); } ( <S> )* )
+        | ( fctval=function() { f.setValue(ac, fctval); } ( <S> )* )
       )
       <RPAREN> ( <S> )*
     ) {
 	return f;
     }
+    | ( t=<FUNCTIONSELECTOR> s=complex_selector(null) { f.setSelectors(s); } <RPAREN>  ( <S> )* ) { return f; }
+    | ( fct=<FUNCTIONATRULE> ( <S> )* atrule=at_keyword() ( <S> )* <RPAREN> { f.setAtRule(atrule); } ( <S> )* ) { return f; }
+    | ( fctval=function() { f.setValue(ac, fctval); } ( <S> )* ) { return f; }
 	//   | general_enclosed(supportsRule)
      
 }
@@ -3980,8 +4012,8 @@ CssValue function() :
  CssImage img;
 }
 {
-    n=<FUNCTION> ( <S> )*  ( LOOKAHEAD(2) ( exp=expr() )?
-    ")" { 
+    n=<FUNCTION> ( <S> )*  ( LOOKAHEAD(2) ( exp=expr() )? <RPAREN>
+    {
 	String funcname = n.image.toLowerCase();
 	switch(funcname) {
 	    case "rgb(":
@@ -4065,7 +4097,7 @@ CssValue function() :
 	    }
 	    return f;
 	}
-    }   |  p=ident() <EQ> q=<NUMBER> ")" ) {
+    }   |  p=ident() <EQ> q=<NUMBER> <RPAREN> ) {
     // this one is for vendor extension like alpha(opacity=50);
         exp = new CssExpression();
         setValue(new CssIdent(), exp, ' ', p, IDENT);

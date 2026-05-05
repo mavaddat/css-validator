@@ -319,11 +319,15 @@ public interface CssParserConstants {
   /** RegularExpression Id. */
   int FUNCTIONLAYER = 154;
   /** RegularExpression Id. */
-  int FUNCTION = 155;
+  int FUNCTIONSELECTOR = 155;
   /** RegularExpression Id. */
-  int HTMLSTARTTAG = 156;
+  int FUNCTIONATRULE = 156;
   /** RegularExpression Id. */
-  int HTMLENDTAG = 157;
+  int FUNCTION = 157;
+  /** RegularExpression Id. */
+  int HTMLSTARTTAG = 158;
+  /** RegularExpression Id. */
+  int HTMLENDTAG = 159;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -485,6 +489,8 @@ public interface CssParserConstants {
     "\"var(\"",
     "\"env(\"",
     "\"layer(\"",
+    "\"selector(\"",
+    "\"at-rule(\"",
     "<FUNCTION>",
     "<HTMLSTARTTAG>",
     "<HTMLENDTAG>",

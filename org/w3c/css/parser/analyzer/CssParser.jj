@@ -1646,7 +1646,11 @@ void keyframes() :
         newAtRule(getAtRule());
       }
     }  ( <S> )+ ( n=ident() | n=<STRING> ) {
-      krule.setName(convertIdent(n.image));
+      try {
+          krule.setName(ac, convertIdent(n.image));
+      } catch (InvalidParamException iex) {
+          addError(iex, getAtRule().toString());
+      }
     }  ( <S> )*          
     <LBRACE> ( <S> )*
     ( s=keyframe_selector(null) {

@@ -1637,16 +1637,17 @@ void keyframes() :
 }
 {
   try {
-    <KEYFRAMES_SYM> ( <S> )+ n=ident() ( <S> )* {
-      krule.setName(convertIdent(n.image));
-      if (version.compareTo(CssVersion.CSS3) < 0) {
-        skipStatement();
+    <KEYFRAMES_SYM> {
+       if (version.compareTo(CssVersion.CSS3) < 0) {
+        skipStatement();      
         addError(new InvalidParamException("noatruleyet", "", ac),
-    			     getAtRule().toString());
+                             getAtRule().toString());
       } else {
         newAtRule(getAtRule());
       }
-    }
+    }  ( <S> )+ ( n=ident() | n=<STRING> ) {
+      krule.setName(convertIdent(n.image));
+    }  ( <S> )*          
     <LBRACE> ( <S> )*
     ( s=keyframe_selector(null) {
         sl = new ArrayList<CssSelectors>();
